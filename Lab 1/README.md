@@ -8,7 +8,7 @@ The CNI plugin don't seem to install successfuly until the cluster is up. So re-
 `cilium install --version 1.15.0`
 
 # View Cilium Pods
-kubectl get pods --all-namespaces
+`kubectl get pods --all-namespaces`
 
 # Confirm Nodes are Up
 `kubectl get nodes`
