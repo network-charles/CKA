@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: nginx-replicaset
+  # this replicaset has this label tag
+  labels:
+   name: nginx
+spec:
+  selector:
+  # match pod schemas having this label tag
+    matchLabels:
+      name: nginx
+  # create 3 replicas
+  replicas: 3
+  # the template of the pod
+  template:
+    metadata:
+      name: nginx-pod
+      # this pod has this label tag
+      labels:
+        name: nginx
+    spec:
+      containers:
+        - name: nginx
+          image: nginx
+          ports:
+            - containerPort: 80
+          resources:
+            requests:
+              cpu: "0.1"
+              memory: "128M"
+            limits:
+              cpu: "0.1"
+              memory: "128M"
