@@ -1,0 +1,57 @@
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: nginx-replicaset-1
+  namespace: dev-1
+  # this replicaset has this label tag
+  labels:
+   name: nginx
+spec:
+  selector:
+  # match pod schemas having this label tag
+    matchLabels:
+      name: nginx
+  # create 2 replicas
+  replicas: 2
+  # the template of the pod
+  template:
+    metadata:
+      name: nginx-pod
+      # this pod has this label tag
+      labels:
+        name: nginx
+    spec:
+      containers:
+        - name: nginx
+          image: nginx:alpine
+          ports:
+            - containerPort: 80
+---
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: nginx-replicaset-2
+  namespace: dev-2
+  # this replicaset has this label tag
+  labels:
+   name: nginx
+spec:
+  selector:
+  # match pod schemas having this label tag
+    matchLabels:
+      name: nginx
+  # create 2 replicas
+  replicas: 2
+  # the template of the pod
+  template:
+    metadata:
+      name: nginx-pod
+      # this pod has this label tag
+      labels:
+        name: nginx
+    spec:
+      containers:
+        - name: nginx
+          image: nginx:alpine
+          ports:
+            - containerPort: 80
