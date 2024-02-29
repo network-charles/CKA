@@ -62,9 +62,9 @@ data "aws_instance" "instance" {
   depends_on = [aws_eks_node_group.worker-node-group]
 }
 
-# ---------------------------------------------------------------------------------#
-#         Load Balancer AWS Load Balancer Controller                               #
-# ---------------------------------------------------------------------------------#
+#-------------------------------------------------------------------------------#
+#         Load Balancer AWS Load Balancer Controller                            #
+#-------------------------------------------------------------------------------#
 data "tls_certificate" "eks" {
   url = aws_eks_cluster.eks.identity[0].oidc[0].issuer
 }

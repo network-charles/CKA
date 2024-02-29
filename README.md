@@ -25,6 +25,8 @@ dynamodb_table = "table-name"
 7. [Lab 7: Deploy a Replicaset and expose it using a ClusterIP Service](#lab-7)
 8. [Lab 8: Deploy a Replicaset and an ExternalName service. Access the service via its metadata name from inside each pod](#lab-8)
 9. [Lab 9: Deploy a Replicaset and a LoadBalancer service. Use an AWS Load Balancer](#lab-9)
+10. [Lab 10: Manually Schedule a Pod to a Node](#lab-10)
+11. [Lab 11: Taint Nodes and Add Tolerations to Pods](#lab-11)
 
 ## Lab 1
 
@@ -79,3 +81,15 @@ dynamodb_table = "table-name"
 ### Deploy a Replicaset and a LoadBalancer service. Use an AWS Load Balancer
 
 ![Lab 9](./Images/Lab%209.png)
+
+## Lab 10
+
+### Manually Schedule a Pod to a Node
+
+![Lab 10](./Images/Lab%2010.png)
+
+## Lab 11
+
+### Taint Nodes and Add Tolerations to Pods
+
+![Lab 11](./Images/Lab%2011.png)

@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: Binding
+metadata:
+  name: nginx-automatic
+target:
+  apiVersion: v1
+  kind: Node
+  name: ip-192-168-3-104

@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    name: nginx
+  name: nginx-manual
+spec:
+  containers:
+  - image: nginx:alpine
+    name: nginx
+  tolerations:
+    - key: key1
+      operator: Equal
+      value: value1
+      effect: NoSchedule

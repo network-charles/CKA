@@ -23,9 +23,9 @@ resource "aws_security_group" "sg" {
   }
 }
 
-# ---------------------------------------------------------------------------------#
-#             Cluster & Node                                                       #
-# ---------------------------------------------------------------------------------#
+#-------------------------------------------------------------------------------#
+#             Cluster Node                                                      #
+#-------------------------------------------------------------------------------#
 
 resource "aws_iam_role" "eks-iam-role" {
   name               = "eks-iam-role"
@@ -67,9 +67,9 @@ resource "aws_iam_role_policy_attachment" "AmazonEC2ContainerRegistryReadOnly-No
   role       = aws_iam_role.worker-nodes-iam-role.name
 }
 
-# ---------------------------------------------------------------------------------#
-#             AWS Load Balancer Controller                                         #
-# ---------------------------------------------------------------------------------#
+#-------------------------------------------------------------------------------#
+#              AWS Load Balancer Controller                                     #
+#-------------------------------------------------------------------------------#
 resource "aws_iam_openid_connect_provider" "eks" {
   client_id_list  = ["sts.amazonaws.com"]
   thumbprint_list = [data.tls_certificate.eks.certificates[0].sha1_fingerprint]
@@ -91,9 +91,9 @@ resource "aws_iam_role_policy_attachment" "aws_load_balancer_controller_attach" 
   policy_arn = aws_iam_policy.aws_load_balancer_controller.arn
 }
 
-# ---------------------------------------------------------------------------------#
-#             Key Pair                                                             #
-# ---------------------------------------------------------------------------------#
+#-------------------------------------------------------------------------------#
+#            KeyPair                                                            #
+#-------------------------------------------------------------------------------#
 
 # Create a key_name for SSH 
 resource "tls_private_key" "key" {
