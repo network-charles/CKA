@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx
+spec:
+  containers:
+    - image: nginx:alpine
+      name: nginx-container
+  affinity:
+    nodeAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution: # It says that the pod must be scheduled onto a node that satisfies the specified conditions, and if there's no such node, the pod won't be scheduled.
+        nodeSelectorTerms:
+        - matchExpressions: # matches a label assigned to a node
+          - key: az
+            operator: In # If the value of the key 'name' is 'node1', then the condition is satisfied.
+            values:
+            - eu-west-2a          

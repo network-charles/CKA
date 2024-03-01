@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx
+spec:
+  containers:
+    - image: nginx:alpine
+      name: nginx-container
+  affinity:
+    nodeAffinity:       
+      preferredDuringSchedulingIgnoredDuringExecution: # It suggests that if possible, the pod should be scheduled onto a node that satisfies the specified conditions, but it's not a strict requirement
+      - weight: 1 # In a scenario with multiple preferences, the scheduler considers the weights assigned to nodes plus it iterates through every preferred rule that the node satisfies and adds the value of the weight to make decisions.
+        preference:
+          matchExpressions: # matches a label assigned to a node
+          - key: az
+            operator: In
+            values:
+            - eu-west-2c

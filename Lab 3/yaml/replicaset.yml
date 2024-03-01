@@ -4,12 +4,12 @@ metadata:
   name: nginx-replicaset
   # this replicaset has this label tag
   labels:
-   name: nginx
+   name: nginx-replicaset
 spec:
   selector:
   # match pod schemas having this label tag
     matchLabels:
-      name: nginx
+      name: nginx-pod
   # create 3 replicas
   replicas: 3
   # the template of the pod
@@ -18,7 +18,7 @@ spec:
       name: nginx-pod
       # this pod has this label tag
       labels:
-        name: nginx
+        name: nginx-pod
     spec:
       containers:
         - name: nginx

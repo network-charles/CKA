@@ -6,4 +6,5 @@ spec:
   containers:
     - image: nginx:alpine
       name: web
-
+  nodeSelector: # match this label on the node
+    az: eu-west-2a

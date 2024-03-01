@@ -27,6 +27,8 @@ dynamodb_table = "table-name"
 9. [Lab 9: Deploy a Replicaset and a LoadBalancer service. Use an AWS Load Balancer](#lab-9)
 10. [Lab 10: Manually Schedule a Pod to a Node](#lab-10)
 11. [Lab 11: Taint Nodes and Add Tolerations to Pods](#lab-11)
+12. [Lab 12: Label Nodes and add a NodeSelector to a Pod](#lab-12)
+13. [Lab 13: Set CPU Resource Limit to a Namespace and Deploy acPod that Requests more CPU and also changes the CPU Limit](#lab-13)
 
 ## Lab 1
 
@@ -93,3 +95,15 @@ dynamodb_table = "table-name"
 ### Taint Nodes and Add Tolerations to Pods
 
 ![Lab 11](./Images/Lab%2011.png)
+
+## Lab 12
+
+### Label Nodes and add a NodeSelector to a Pod
+
+![Lab 12](./Images/Lab%2012.png)
+
+## Lab 13
+
+### Set CPU Resource Limit to a Namespace and Deploy acPod that Requests more CPU and also changes the CPU Limit
+
+![Lab 13](./Images/Lab%2013.png)

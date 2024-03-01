@@ -4,7 +4,7 @@ metadata:
   name: nginx-deployment
   # this deployment has this label tag
   labels:
-   name: nginx
+   name: nginx-deployment
 spec:
   selector:
   # match pod schemas having this label tag

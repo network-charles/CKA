@@ -5,7 +5,7 @@ metadata:
   namespace: default
   # this replicaset has this label tag
   labels:
-   name: nginx
+   name: nginx-replicaset-1
 spec:
   selector:
   # match pod schemas having this label tag
