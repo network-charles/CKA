@@ -15,7 +15,7 @@ OR
 `kubectl create deployment nginx-deployment --image=nginx:1.25.3`
 This is revision 1.
 
-## Confirm that the deployent are up
+## Confirm that the deployment is up
 
 `kubectl get deployment`
 
@@ -34,7 +34,7 @@ OR
 `kubectl edit deployment nginx-deployment`
 
 This is revision 2 now.
-Also, a new replicaset is created for this reviion.
+Also, a new replicaset is created for this revision.
 
 ## Check pod to see rolling update strategy in action
 

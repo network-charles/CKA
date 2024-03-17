@@ -31,6 +31,8 @@ dynamodb_table = "table-name"
 13. [Lab 13: Set CPU Resource Limit to a Namespace and Deploy a Pod that Requests more CPU and also changes the CPU Limit](#lab-13)
 14. [Lab 14: Deploy a DaemonSet across 2 nodes, and scale it to 3](#lab-14)
 15. [Lab 15: Deploy a StaticPod into a Control Plane Node](#lab-15)
+16. [Lab 16: Deploy a Custom Scheduler and a Pod that Uses It.](#lab-16)
+17. [Lab 17: Deploy a Metric Server and View the Metrics of Resources](#lab-17)
 
 ## Lab 1
 
@@ -121,3 +123,15 @@ dynamodb_table = "table-name"
 ### Deploy a StaticPod into a Control Plane Node
 
 ![Lab 15](./Images/Lab%2015.png)
+
+## Lab 16
+
+### Deploy a Custom Scheduler and a Pod that Uses It
+
+![Lab 16](./Images/Lab%2016.png)
+
+## Lab 17
+
+### Deploy a Metric Server and View the Metrics of Resources
+
+![Lab 17](./Images/Lab%2017.png)
