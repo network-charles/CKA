@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: my-pod
+spec:
+  containers:
+    - name: my-container
+      image: nginx:alpine
+      # Execute the bellow command & argument in the terminal
+      command: ["/bin/sh"]
+      args: ["-c", "env"]
+      # Add config map via enviromental variables
+      envFrom:
+      - configMapRef:
+          name: my-config

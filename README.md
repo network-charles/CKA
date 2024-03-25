@@ -33,6 +33,8 @@ dynamodb_table = "table-name"
 15. [Lab 15: Deploy a StaticPod into a Control Plane Node](#lab-15)
 16. [Lab 16: Deploy a Custom Scheduler and a Pod that Uses It.](#lab-16)
 17. [Lab 17: Deploy a Metric Server and View the Metrics of Resources](#lab-17)
+18. [Lab 18: Use Command & Argument to Execute an Instruction in the Shell of a Pod](#lab-18)
+19. [Lab 19: Use a ConfigMap to Dynamically Pass Configs to a Container in a Pod via its Enviromental Variables](#lab-19)
 
 ## Lab 1
 
@@ -135,3 +137,15 @@ dynamodb_table = "table-name"
 ### Deploy a Metric Server and View the Metrics of Resources
 
 ![Lab 17](./Images/Lab%2017.png)
+
+## Lab 18
+
+### Use Command & Argument to Execute an Instruction in the Shell of a Pod
+
+![Lab 18](./Images/Lab%2018.png)
+
+## Lab 19
+
+### Use a ConfigMap to Dynamically Pass Configs to a Container in a Pod via its Enviromental Variables
+
+![Lab 19](./Images/Lab%2019.png)
