@@ -19,7 +19,7 @@ dynamodb_table = "table-name"
 1. [Lab 1: Deploy a Kubernetes Cluster on AWS EC2 and attach a Cilium CNI](#lab-1)
 2. [Lab 2: Deploy a single pod to an EKS cluster](#lab-2)
 3. [Lab 3: Deploy a single pod to an EKS cluster, and then scale the pod using a ReplicaSet for high availability](#lab-3)
-4. [Lab 4: Deploy a Deployment with 3 Replicas, then install a new versions of the image using the Rolling Update strategy](#lab-4)
+4. [Lab 4: Deploy a Deployment with 3 Replicas, then install a new version of the image using the Rolling Update strategy](#lab-4)
 5. [Lab 5: Deploy 2 Namespaces and set a Resource Quota in them](#lab-5)
 6. [Lab 6: Deploy a Replicaset and expose it using a Nodeport Service](#lab-6)
 7. [Lab 7: Deploy a Replicaset and expose it using a ClusterIP Service](#lab-7)
@@ -34,7 +34,7 @@ dynamodb_table = "table-name"
 16. [Lab 16: Deploy a Custom Scheduler and a Pod that Uses It.](#lab-16)
 17. [Lab 17: Deploy a Metric Server and View the Metrics of Resources](#lab-17)
 18. [Lab 18: Use Command & Argument to Execute an Instruction in the Shell of a Pod](#lab-18)
-19. [Lab 19: Use a ConfigMap to Dynamically Pass Configs to a Container in a Pod via its Enviromental Variables](#lab-19)
+19. [Lab 19: Use a ConfigMap to Dynamically Pass Configs to a Container in a Pod via its Environmental Variables](#lab-19)
 
 ## Lab 1
 
@@ -56,7 +56,7 @@ dynamodb_table = "table-name"
 
 ## Lab 4
 
-### Deploy a Deployment with 3 Replicas, then install a new versions of the image using the Rolling Update strategy
+### Deploy a Deployment with 3 Replicas, then install a new version of the image using the Rolling Update strategy
 
 ![Lab 4](./Images/Lab%204.png)
 
@@ -146,6 +146,6 @@ dynamodb_table = "table-name"
 
 ## Lab 19
 
-### Use a ConfigMap to Dynamically Pass Configs to a Container in a Pod via its Enviromental Variables
+### Use a ConfigMap to Dynamically Pass Configs to a Container in a Pod via its Environmental Variables
 
 ![Lab 19](./Images/Lab%2019.png)
