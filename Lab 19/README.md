@@ -1,6 +1,6 @@
 # Instruction
 
-## Static Pods
+## Config Maps
 
 ### Access the EKS cluster CLI
 

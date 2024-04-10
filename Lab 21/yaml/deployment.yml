@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: multi-container-deployment
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      type: multi-container
+  template:
+    metadata:
+      labels:
+        type: multi-container
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:1.14.2
+        ports:
+        - containerPort: 80
+      - name: logging-sidecar
+        image: fluentd:latest
+        
