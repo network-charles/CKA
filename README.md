@@ -18,18 +18,18 @@ dynamodb_table = "table-name"
 
 ### Core Concepts
 
-1. [Lab 1: Deploy a Kubernetes Cluster on AWS EC2 and attach a Cilium CNI](#lab-1)
-2. [Lab 2: Deploy a single pod to an EKS cluster](#lab-2)
-3. [Lab 3: Deploy a single pod to an EKS cluster, and then scale the pod using a ReplicaSet for high availability](#lab-3)
-4. [Lab 4: Deploy 2 Namespaces and set a Resource Quota in them](#lab-4)
-5. [Lab 5: Deploy a Replicaset and expose it using a Nodeport Service](#lab-5)
-6. [Lab 6: Deploy a Replicaset and expose it using a ClusterIP Service](#lab-6)
-7. [Lab 7: Deploy a Replicaset and an ExternalName service. Access the service via its metadata name from inside each pod](#lab-7)
-8. [Lab 8: Deploy a Replicaset and a LoadBalancer service. Use an AWS Load Balancer](#lab-8)
+1. [Lab 01: Deploy a Kubernetes Cluster on AWS EC2 and attach a Cilium CNI](#lab-01)
+2. [Lab 02: Deploy a single pod to an EKS cluster](#lab-02)
+3. [Lab 03: Deploy a single pod to an EKS cluster, and then scale the pod using a ReplicaSet for high availability](#lab-03)
+4. [Lab 04: Deploy 2 Namespaces and set a Resource Quota in them](#lab-04)
+5. [Lab 05: Deploy a Replicaset and expose it using a Nodeport Service](#lab-05)
+6. [Lab 06: Deploy a Replicaset and expose it using a ClusterIP Service](#lab-06)
+7. [Lab 07: Deploy a Replicaset and an ExternalName service. Access the service via its metadata name from inside each pod](#lab-07)
+8. [Lab 08: Deploy a Replicaset and a LoadBalancer service. Use an AWS Load Balancer](#lab-08)
 
 ### Scheduling
 
-9. [Lab 9: Manually Schedule a Pod to a Node](#lab-9)
+9. [Lab 09: Manually Schedule a Pod to a Node](#lab-09)
 10. [Lab 10: Taint Nodes and Add Tolerations to Pods](#lab-10)
 11. [Lab 11: Label Nodes and add a NodeSelector to a Pod](#lab-11)
 12. [Lab 12: Set CPU Resource Limit to a Namespace and Deploy a Pod that Requests more CPU and also changes the CPU Limit](#lab-12)
@@ -50,59 +50,59 @@ dynamodb_table = "table-name"
 21. [Lab 21: Configure a multi-container Pod and send each log to a file](#lab-21)
 22. [Lab 22: Configure init-container Pods and which uses two services](#lab-22)
 
-## Lab 1
+## Lab 01
 
 ### Deploy a Kubernetes Cluster on AWS EC2 and attach a Cilium CNI
 
-![Lab 1](./Images/Lab%201.png)
+![Lab 01](./Images/Lab%2001.png)
 
-## Lab 2
+## Lab 02
 
 ### Deploy a single pod to an EKS cluster
 
-![Lab 2](./Images/Lab%202.png)
+![Lab 02](./Images/Lab%2002.png)
 
-## Lab 3
+## Lab 03
 
 ### Deploy a single pod to an EKS cluster, and then scale the pod using a ReplicaSet for high availability
 
-![Lab 3](./Images/Lab%203.png)
+![Lab 03](./Images/Lab%2003.png)
 
-## Lab 4
+## Lab 04
 
 ### Deploy 2 Namespaces and set a Resource Quota in them
 
-![Lab 4](./Images/Lab%204.png)
+![Lab 04](./Images/Lab%2004.png)
 
-## Lab 5
+## Lab 05
 
 ### Deploy a Replicaset and expose it using a Nodeport Service
 
-![Lab 5](./Images/Lab%205.png)
+![Lab 05](./Images/Lab%2005.png)
 
-## Lab 6
+## Lab 06
 
 ### Deploy a Replicaset and expose it using a ClusterIP Service
 
-![Lab 6](./Images/Lab%206.png)
+![Lab 06](./Images/Lab%2006.png)
 
-## Lab 7
+## Lab 07
 
 ### Deploy a Replicaset and an ExternalName service. Access the service via its metadata name from inside each pod
 
-![Lab 7](./Images/Lab%207.png)
+![Lab 07](./Images/Lab%2007.png)
 
-## Lab 8
+## Lab 08
 
 ### Deploy a Replicaset and a LoadBalancer service. Use an AWS Load Balancer
 
-![Lab 8](./Images/Lab%208.png)
+![Lab 08](./Images/Lab%2008.png)
 
-## Lab 9
+## Lab 09
 
 ### Manually Schedule a Pod to a Node
 
-![Lab 9](./Images/Lab%209.png)
+![Lab 09](./Images/Lab%2009.png)
 
 ## Lab 10
 
