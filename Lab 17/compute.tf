@@ -26,18 +26,17 @@ resource "aws_eks_node_group" "worker-node-group" {
   node_group_name = "workernodes"
   node_role_arn   = aws_iam_role.worker-nodes-iam-role.arn
   subnet_ids = [
-    aws_subnet.my_subnet[0].id,
-    aws_subnet.my_subnet[1].id
+    aws_subnet.my_subnet[0].id
   ]
 
   capacity_type  = "SPOT"
-  instance_types = ["t3.medium"]
+  instance_types = ["t3.small"]
   disk_size      = "20"
 
   scaling_config {
-    desired_size = 2
-    max_size     = 2
-    min_size     = 2
+    desired_size = 1
+    max_size     = 1
+    min_size     = 1
   }
 
   remote_access {

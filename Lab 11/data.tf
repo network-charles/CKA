@@ -1,21 +1,24 @@
-data "aws_ami" "amazon" {
-  most_recent = true
+# define a service role to the assumed
+data "aws_iam_policy_document" "eks_assume_role" {
+  statement {
+    effect = "Allow"
 
-  filter {
-    name = "name"
-    # amazon linux rhel 
-    #values = ["al2023-ami-2023.3.20240131.0-kernel-6.1-x86_64"] 
+    principals {
+      type        = "Service"
+      identifiers = ["eks.amazonaws.com"]
+    }
 
-    # ubuntu
-    values = ["ubuntu/images/hvm-ssd/ubuntu-jammy-22.04-amd64-server-*"]
+    actions = ["sts:AssumeRole"]
   }
+}
 
-  filter {
-    name   = "virtualization-type"
-    values = ["hvm"]
-  }
+# define policies to be attached to the role 
+data "aws_iam_policy" "AmazonEKSClusterPolicy" {
+  name = "AmazonEKSClusterPolicy"
+}
 
-  owners = ["amazon"]
+data "aws_iam_policy" "AmazonEC2ContainerRegistryReadOnly" {
+  name = "AmazonEC2ContainerRegistryReadOnly"
 }
 
 # define a service role to the assumed
@@ -33,15 +36,27 @@ data "aws_iam_policy_document" "ec2_assume_role" {
 }
 
 # define policies to be attached to the role 
-data "aws_iam_policy" "AmazonSSMManagedInstanceCore" {
-  name = "AmazonSSMManagedInstanceCore"
+data "aws_iam_policy" "AmazonEKSWorkerNodePolicy" {
+  name = "AmazonEKSWorkerNodePolicy"
 }
 
-# grab running instances 
-data "aws_instance" "eu_west_2a" {
+data "aws_iam_policy" "AmazonEKS_CNI_Policy" {
+  name = "AmazonEKS_CNI_Policy"
+}
+
+data "aws_iam_policy" "EC2InstanceProfileForImageBuilderECRContainerBuilds" {
+  name = "EC2InstanceProfileForImageBuilderECRContainerBuilds"
+}
+
+data "aws_instance" "instance1" {
   filter {
-    name   = "tag:Name"
-    values = ["asg"]
+    name   = "tag:eks:cluster-name"
+    values = ["eks"]
+  }
+
+  filter {
+    name   = "instance-state-name"
+    values = ["running"]
   }
 
   filter {
@@ -49,18 +64,18 @@ data "aws_instance" "eu_west_2a" {
     values = ["eu-west-2a"]
   }
 
+  depends_on = [aws_eks_node_group.worker-node-group]
+}
+
+data "aws_instance" "instance2" {
+  filter {
+    name   = "tag:eks:cluster-name"
+    values = ["eks"]
+  }
+
   filter {
     name   = "instance-state-name"
     values = ["running"]
-  }
-
-  depends_on = [aws_autoscaling_group.asg]
-}
-
-data "aws_instance" "eu_west_2b" {
-  filter {
-    name   = "tag:Name"
-    values = ["asg"]
   }
 
   filter {
@@ -68,29 +83,5 @@ data "aws_instance" "eu_west_2b" {
     values = ["eu-west-2b"]
   }
 
-  filter {
-    name   = "instance-state-name"
-    values = ["running"]
-  }
-
-  depends_on = [aws_autoscaling_group.asg]
-}
-
-data "aws_instance" "eu_west_2c" {
-  filter {
-    name   = "tag:Name"
-    values = ["asg"]
-  }
-
-  filter {
-    name   = "availability-zone"
-    values = ["eu-west-2c"]
-  }
-
-  filter {
-    name   = "instance-state-name"
-    values = ["running"]
-  }
-
-  depends_on = [aws_autoscaling_group.asg]
+  depends_on = [aws_eks_node_group.worker-node-group]
 }

@@ -21,6 +21,24 @@ resource "aws_eks_cluster" "eks" {
   ]
 }
 
+# Create a launch template for ASG 
+resource "aws_launch_template" "lt" {
+  image_id               = data.aws_ssm_parameter.amazon_eks_ami.insecure_value
+  instance_type          = "t3.small"
+  vpc_security_group_ids = [aws_security_group.sg.id]
+  # amazon linux rhel 
+  user_data = filebase64("${path.module}/k8s_user_data.sh")
+  key_name = aws_key_pair.key_pair.key_name
+  
+  block_device_mappings {
+    device_name = "/dev/xvda"
+    ebs {
+      volume_size = 20
+      volume_type = "gp2"
+    }
+  }
+}
+
 resource "aws_eks_node_group" "worker-node-group" {
   cluster_name    = aws_eks_cluster.eks.name
   node_group_name = "workernodes"
@@ -29,18 +47,15 @@ resource "aws_eks_node_group" "worker-node-group" {
     aws_subnet.my_subnet[0].id
   ]
 
-  capacity_type  = "SPOT"
-  instance_types = ["t3.small"]
-  disk_size      = "20"
+  launch_template {
+    id      = aws_launch_template.lt.id
+    version = "$Latest"
+  }
 
   scaling_config {
     desired_size = 1
     max_size     = 1
     min_size     = 1
-  }
-
-  remote_access {
-    ec2_ssh_key = aws_key_pair.key_pair.key_name
   }
 
   depends_on = [

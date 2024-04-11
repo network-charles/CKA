@@ -1,24 +1,21 @@
-# define a service role to the assumed
-data "aws_iam_policy_document" "eks_assume_role" {
-  statement {
-    effect = "Allow"
+data "aws_ami" "amazon" {
+  most_recent = true
 
-    principals {
-      type        = "Service"
-      identifiers = ["eks.amazonaws.com"]
-    }
+  filter {
+    name = "name"
+    # amazon linux rhel 
+    #values = ["al2023-ami-2023.3.20240131.0-kernel-6.1-x86_64"] 
 
-    actions = ["sts:AssumeRole"]
+    # ubuntu
+    values = ["ubuntu/images/hvm-ssd/ubuntu-jammy-22.04-amd64-server-*"]
   }
-}
 
-# define policies to be attached to the role 
-data "aws_iam_policy" "AmazonEKSClusterPolicy" {
-  name = "AmazonEKSClusterPolicy"
-}
+  filter {
+    name   = "virtualization-type"
+    values = ["hvm"]
+  }
 
-data "aws_iam_policy" "AmazonEC2ContainerRegistryReadOnly" {
-  name = "AmazonEC2ContainerRegistryReadOnly"
+  owners = ["amazon"]
 }
 
 # define a service role to the assumed
@@ -36,22 +33,20 @@ data "aws_iam_policy_document" "ec2_assume_role" {
 }
 
 # define policies to be attached to the role 
-data "aws_iam_policy" "AmazonEKSWorkerNodePolicy" {
-  name = "AmazonEKSWorkerNodePolicy"
+data "aws_iam_policy" "AmazonSSMManagedInstanceCore" {
+  name = "AmazonSSMManagedInstanceCore"
 }
 
-data "aws_iam_policy" "AmazonEKS_CNI_Policy" {
-  name = "AmazonEKS_CNI_Policy"
-}
-
-data "aws_iam_policy" "EC2InstanceProfileForImageBuilderECRContainerBuilds" {
-  name = "EC2InstanceProfileForImageBuilderECRContainerBuilds"
-}
-
-data "aws_instance" "instance" {
+# grab running instances 
+data "aws_instance" "eu_west_2a" {
   filter {
-    name   = "tag:eks:cluster-name"
-    values = ["eks"]
+    name   = "tag:Name"
+    values = ["asg"]
+  }
+
+  filter {
+    name   = "availability-zone"
+    values = ["eu-west-2a"]
   }
 
   filter {
@@ -59,39 +54,43 @@ data "aws_instance" "instance" {
     values = ["running"]
   }
 
-  depends_on = [aws_eks_node_group.worker-node-group]
+  depends_on = [aws_autoscaling_group.asg]
 }
 
-#-------------------------------------------------------------------------------#
-#         Load Balancer AWS Load Balancer Controller                            #
-#-------------------------------------------------------------------------------#
-data "tls_certificate" "eks" {
-  url = aws_eks_cluster.eks.identity[0].oidc[0].issuer
-}
-
-data "aws_iam_policy_document" "aws_load_balancer_controller_assume_role_policy" {
-  statement {
-    actions = ["sts:AssumeRoleWithWebIdentity"]
-    effect  = "Allow"
-
-    condition {
-      test     = "StringEquals"
-      variable = "${replace(aws_iam_openid_connect_provider.eks.url, "https://", "")}:sub"
-      values   = ["system:serviceaccount:kube-system:aws-load-balancer-controller"]
-    }
-
-    condition {
-      test     = "StringEquals"
-      variable = "${replace(aws_iam_openid_connect_provider.eks.url, "https://", "")}:aud"
-
-      values = [
-        "sts.amazonaws.com"
-      ]
-    }
-
-    principals {
-      identifiers = [aws_iam_openid_connect_provider.eks.arn]
-      type        = "Federated"
-    }
+data "aws_instance" "eu_west_2b" {
+  filter {
+    name   = "tag:Name"
+    values = ["asg"]
   }
+
+  filter {
+    name   = "availability-zone"
+    values = ["eu-west-2b"]
+  }
+
+  filter {
+    name   = "instance-state-name"
+    values = ["running"]
+  }
+
+  depends_on = [aws_autoscaling_group.asg]
+}
+
+data "aws_instance" "eu_west_2c" {
+  filter {
+    name   = "tag:Name"
+    values = ["asg"]
+  }
+
+  filter {
+    name   = "availability-zone"
+    values = ["eu-west-2c"]
+  }
+
+  filter {
+    name   = "instance-state-name"
+    values = ["running"]
+  }
+
+  depends_on = [aws_autoscaling_group.asg]
 }

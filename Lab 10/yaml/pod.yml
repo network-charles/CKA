@@ -1,9 +1,8 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: nginx
-  namespace: default
+  name: nginx-automatic
 spec:
   containers:
-  - image: nginx
+  - image: nginx:alpine
     name: nginx

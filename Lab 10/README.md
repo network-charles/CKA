@@ -26,58 +26,56 @@ ip-192-168-2-114   Ready    <none>          45m   v1.29.2
 ip-192-168-3-104   Ready    <none>          45m   v1.29.2
 ```
 
-The IP addresses are dynamically generated.
-
-## Crash the kube-scheduler
+## Taint all Nodes so they can reject pods
 
 ```bash
-sudo nano /etc/kubernetes/manifests/kube-scheduler.yaml
+kubectl taint nodes <node_name> key1=value1:NoSchedule
 
-Rename the below part 'scheduler.conf' to 'scheduler.confx`
-- --authentication-kubeconfig=/etc/kubernetes/scheduler.conf
-- --authorization-kubeconfig=/etc/kubernetes/scheduler.conf
-
-Confirm that the schduler has crashed 
-kubectl get pod --namespace kube-system
+kubectl taint nodes <node_name> key1=value1:NoSchedule
 ```
 
-## Spin up a new pod that uses the default scheduler
-
-`kubectl create -f yaml/no_automatic_scheduler_pod.yml`
-
-Confirm that the pod is stuck at pending state, and also that it is not assigned to a node
+Confirm that the node has been tainted
 
 ```bash
-kubectl get pod --output wide
+kubectl describe node <node_name> | grep -i taint
 
-NAME              READY   STATUS    RESTARTS   AGE     IP           NODE               NOMINATED NODE   READINESS GATES
-nginx-automatic   0/1     Pending   0          2m59s   <none>       <none>             <none>           <none>
+kubectl describe node <node_name> | grep -i taint
 ```
 
-## Spin up a new pod and manually schedule it to a node
-
-`kubectl create -f manual_scheduler_pod.yml`
-
-Confirm that the pod is in a running state, and also that it is assigned a node named `ip-192-168-2-114`
+## Create a pod and observe the status
 
 ```bash
-kubectl get pod --output wide`
+kubectl create -f yaml/pod.yml
 
-NAME              READY   STATUS    RESTARTS   AGE     IP           NODE               NOMINATED NODE   READINESS GATES
-nginx-manual      1/1     Running   0          12s     10.0.2.198   ip-192-168-2-114   <none>           <none>
+kubectl get pods
+
+NAME    READY   STATUS    RESTARTS   AGE
+nginx   0/1     Pending   0          11s
 ```
 
-## Use a Binding to schedule a pod to a node
+The pod is stuck in a pending state because it has been rejected by nodes.
 
-We will be targeting the pod tagged `name: nginx-automatic`.
-The pod will be schedule to the second node `ip-192-168-3-104`
+## Add a toleration the pod so that it can be scheduled to a node
+
+Append the below inside a pod spec.
 
 ```bash
-kubectl create -f pod_node_binding.yml
-kubectl get pod --output wide`
+tolerations:
+    - key: "key1"
+      operator: "Equal"
+      value: "value1"
+      effect: "NoSchedule"
 
-NAME              READY   STATUS    RESTARTS   AGE   IP           NODE               NOMINATED NODE   READINESS GATES
-nginx-automatic   1/1     Running   0          18m   10.0.1.82    ip-192-168-3-104   <none>           <none>
+kubectl create -f yaml/tolerated_pod.yml
+```
+
+Confirm that the pod is in a running state
+
+```bash
+kubectl get pod
+
+NAME    READY   STATUS    RESTARTS   AGE
+nginx   1/1     Running   0          68s
 ```
 
 ## Clean Up

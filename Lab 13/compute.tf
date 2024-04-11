@@ -6,7 +6,8 @@ resource "aws_eks_cluster" "eks" {
     endpoint_public_access = true
     subnet_ids = [
       aws_subnet.my_subnet[0].id,
-      aws_subnet.my_subnet[1].id
+      aws_subnet.my_subnet[1].id,
+      aws_subnet.my_subnet[2].id
     ]
     security_group_ids = [aws_security_group.sg.id]
   }
@@ -26,7 +27,9 @@ resource "aws_eks_node_group" "worker-node-group" {
   node_group_name = "workernodes"
   node_role_arn   = aws_iam_role.worker-nodes-iam-role.arn
   subnet_ids = [
-    aws_subnet.my_subnet[0].id
+    aws_subnet.my_subnet[0].id,
+    aws_subnet.my_subnet[1].id,
+    aws_subnet.my_subnet[2].id
   ]
 
   capacity_type  = "SPOT"
@@ -34,9 +37,9 @@ resource "aws_eks_node_group" "worker-node-group" {
   disk_size      = "20"
 
   scaling_config {
-    desired_size = 1
-    max_size     = 1
-    min_size     = 1
+    desired_size = 2
+    max_size     = 2
+    min_size     = 2
   }
 
   remote_access {

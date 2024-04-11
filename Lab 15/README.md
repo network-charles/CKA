@@ -1,6 +1,6 @@
 # Instruction
 
-## Static Pods
+## Custom Scheduler
 
 ### Access the EKS cluster CLI
 
@@ -10,19 +10,23 @@
 
 `kubectl get nodes`
 
-### SSH into the node to deploy the Static pod
+### Create the custom scheduler
 
-Use the terraform output `node1`, `node2`, or `node2`
+`kubectl create -f my-scheduler.yml`
 
-Go to `/etc/kubernetes/manifests` folder. Copy the `yaml/pod.yml` file to it. No need to manually deploy it using `kubectl`. The `kubelet` service will create it.
+### Confirm that the scheduler pod is up
 
-Check that the pod is running using `kubectl get pod` or `crictl ps`
+`kubectl get pod -n kube-system`
 
-The node name is appended to the pod name as a suffix.
+### Create a pod that uses the custom scheduler
+
+`kubectl create -f pod.yml
+
+Check that the pod is running using `kubectl get pod`
 
 ### Clean UP
 
 ```bash
-kubectl delete -f /etc/kubernetes/manifests/pod.yml
+kubectl delete -f yaml
 terraform destroy -auto-approve
 ```

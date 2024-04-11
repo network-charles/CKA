@@ -1,6 +1,6 @@
 # Instruction
 
-## Static Pods
+## Using Commands & Arguments
 
 ### Access the EKS cluster CLI
 

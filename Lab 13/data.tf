@@ -85,3 +85,22 @@ data "aws_instance" "instance2" {
 
   depends_on = [aws_eks_node_group.worker-node-group]
 }
+
+data "aws_instance" "instance3" {
+  filter {
+    name   = "tag:eks:cluster-name"
+    values = ["eks"]
+  }
+
+  filter {
+    name   = "instance-state-name"
+    values = ["running"]
+  }
+
+  filter {
+    name   = "availability-zone"
+    values = ["eu-west-2c"]
+  }
+
+  depends_on = [aws_eks_node_group.worker-node-group]
+}

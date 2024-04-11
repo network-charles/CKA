@@ -22,12 +22,26 @@
 
 OR
 
-`kubectl create service clusterip NAME [--tcp=<port>:<targetPort>] [--dry-run=server|client|none]`
+`kubectl create service externalname NAME --external-name my.nginx.com`
 
-OR
+## Confirm that the external name service has ben created
 
-`kubectl expose replicaset nginx-replicaset-1  --type=ClusterService  --name=nginx-service-nodeport  --target-port=80 --port=80`
+`kubectl get service`
+
+## Go into the container shell to execute a command
+
+`kubectl exec -it <pod_name> -- /bin/sh`
+
+## Do a nameserver lookup of the metadata name of the externalName service
+
+`nslookup external-name`
+It should point to the address specified in the service.
+
+To access the service from a pod in another namespace
+`nslookup external-name.svc.cluster.local`
 
 ## Clean Up
+
+`kubectl -f delete yaml`
 
 `terraform destroy -auto-approve`

@@ -61,3 +61,7 @@ data "aws_instance" "instance" {
 
   depends_on = [aws_eks_node_group.worker-node-group]
 }
+
+data "aws_ssm_parameter" "amazon_eks_ami" {
+  name = "/aws/service/eks/optimized-ami/1.29/amazon-linux-2/recommended/image_id"
+}

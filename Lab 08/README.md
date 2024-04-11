@@ -8,6 +8,13 @@
 
 `kubectl get nodes`
 
+## Install the AWS load balancer controller
+
+- Create OIDC
+- Create required load balancer role and policies
+- Create a kubernetes service account
+- Use helm to install the load balancer controller
+
 ## Create new replicasets
 
 `kubectl create -f yaml/replicaset.yml`
@@ -16,29 +23,22 @@
 
 `kubectl get pod`
 
-## Create a Cluster IP Service
+## Create a Load Balancer Service
 
 `kubectl create -f yaml/service.yml`
 
 OR
 
-`kubectl create service externalname NAME --external-name my.nginx.com`
+```zsh
+kubectl expose replicaset nginx-replicaset-1 --port=80 \
+        --name=load-balancer --type=LoadBalancer
+```
 
-## Confirm that the external name service has ben created
+## Confirm that the load balancer service has ben created
 
 `kubectl get service`
 
-## Go into the container shell to execute a command
-
-`kubectl exec -it <pod_name> -- /bin/sh`
-
-## Do a nameserver lookup of the metadata name of the externalName service
-
-`nslookup external-name`
-It should point to the address specified in the service.
-
-To access the service from a pod in another namespace
-`nslookup external-name.svc.cluster.local`
+Copy the dns name of the load balancer and paste it into your browser to access the nginx web server homepage.
 
 ## Clean Up
 

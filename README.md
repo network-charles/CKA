@@ -46,9 +46,9 @@ dynamodb_table = "table-name"
 17. [Lab 17: Deploy a Deployment with 3 Replicas, then install a new version of the image using the Rolling Update strategy](#lab-17)
 18. [Lab 18: Use Command & Argument to Execute an Instruction in the Shell of a Pod](#lab-18)
 19. [Lab 19: Use a ConfigMap to Dynamically Pass Configs to a Container in a Pod via its Environmental Variables](#lab-19)
-20. [Lab 20: Attach a Secrets onject to a Pod](#lab-20)
+20. [Lab 20: Attach a Secrets object to a Pod](#lab-20)
 21. [Lab 21: Configure a multi-container Pod and send each log to a file](#lab-21)
-22. [Lab 22: Configure init-container Pods and which uses two services](#lab-22)
+22. [Lab 22: Configure init-container Pods which uses(#lab-22) two services](#lab-22)
 
 ## Lab 01
 
@@ -166,7 +166,7 @@ dynamodb_table = "table-name"
 
 ## Lab 20
 
-### Attach a Secrets onject to a Pod
+### Attach a Secrets object to a Pod
 
 ![Lab 20](./Images/Lab%2020.png)
 
@@ -178,6 +178,6 @@ dynamodb_table = "table-name"
 
 ## Lab 22
 
-### Configure init-container Pods and which uses two services
+### Configure init-container Pods which uses two services
 
 ![Lab 22](./Images/Lab%2022.png)

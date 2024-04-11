@@ -14,7 +14,7 @@ resource "aws_internet_gateway" "IGW" {
 
 # Create two public and two private subnets in different AZs
 resource "aws_subnet" "my_subnet" {
-  count = 2
+  count = 3
 
   vpc_id                  = aws_vpc.K8s.id
   cidr_block              = "192.168.${1 + count.index}.0/24"
@@ -36,7 +36,7 @@ resource "aws_route_table" "Public_RT" {
 }
 
 resource "aws_route_table_association" "k8s" {
-  count          = 2
+  count          = 3
   route_table_id = aws_route_table.Public_RT.id
-  subnet_id      = count.index % 2 == 0 ? aws_subnet.my_subnet[0].id : aws_subnet.my_subnet[1].id
+  subnet_id      = count.index % 3 == 0 ? aws_subnet.my_subnet[0].id : count.index % 3 == 1 ? aws_subnet.my_subnet[1].id : aws_subnet.my_subnet[2].id
 }

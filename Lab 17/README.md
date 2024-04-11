@@ -1,6 +1,6 @@
 # Instruction
 
-## Static Pods
+## Using Rolling-Update with a Deployment 
 
 ### Access the EKS cluster CLI
 
@@ -10,47 +10,70 @@
 
 `kubectl get nodes`
 
-### Apply the metric server config from the repo
+### Create a deployemt
 
-`kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml`
+`kubectl apply -f yaml/`
+OR
+`kubectl create deployment nginx-deployment --image=nginx:1.25.3`
+This is revision 1.
 
-### View the metric of nodes in the cluster
+### Confirm that the deployment is up
 
-`kubectl top node <node_name>`
+`kubectl get deployment`
 
-If an error displays saying `Metrics API not available` do the following.
+### Confirm the image version of one of the pods
 
-Check APIs
-`kubectl get apiservices.apiregistration.k8s.io`
-Observe that there is an error here
+`kubectl describe pod <pod_name> | grep Image`
 
-```bash
-NAME                                   SERVICE                      AVAILABLE                  AGE
-v1beta1.metrics.k8s.io                 kube-system/metrics-server   False (MissingEndpoints)   2s
-```
+### Scale the deployment (optional)
 
-### Troubleshoot
+`kubectl scale deployment nginx-deployment --replicas=4`
 
-Edit the running deployment manifest.
-`kubectl edit deploy metrics-server --namespace kube-system`
-Add `--kubelet-insecure-tls=true` to the container argument `args` list.
+### Upgrade the nginx image version to v1.25.4
 
-### Create a pod that uses the custom scheduler
+`kubectl set image deployment nginx-deployment nginx=nginx:1.25.4`
+OR
+`kubectl edit deployment nginx-deployment`
 
-`kubectl create -f yaml/pod.yml`
+This is revision 2 now.
+Also, a new replicaset is created for this revision.
 
-Check that the pod is running using `kubectl get pod`
+### Check pod to see rolling update strategy in action
 
-### View the metric used by the pod
+`kubectl get pod`
 
-`kubectl top pod nginx`
+### Check rollout status
 
-### Clean UP
+`kubectl rollout status deployment nginx-deployment`
 
-```bash
-kubectl delete -f https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml
+### Check history of rolling update
 
-kubectl delete -f yaml
+`kubectl rollout history deployment nginx-deployment`
 
-terraform destroy -auto-approve
-```
+### Confirm the image version of one of the new pods
+
+`kubectl describe pod <pod_name> | grep Image`
+
+### Check Replicaset
+
+`kubectl get replicaset`
+Notice that another replicaset has been created for the new version of the image.
+The replicaset
+
+### Upgrade the image to a wrong one
+
+`kubectl set image deployment nginx-deployment nginx=nginx:1.25.9`
+This is revision 3 now.
+
+### Confirm that the pod has been created wrongly | check pod `status`
+
+`kubectl get pod`
+
+### Rollback to the previous version v1.25.4 of the image
+
+`kubectl rollout undo deployment nginx-deployment --to-revision=2`
+
+### Clean Up
+
+`kubectl delete deployment nginx-deployment` OR `kubectl delete -f deployment.yml`
+`terraform destroy -auto-approve`

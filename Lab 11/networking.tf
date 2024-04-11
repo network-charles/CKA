@@ -1,70 +1,42 @@
-resource "aws_vpc" "k8s" {
+resource "aws_vpc" "K8s" {
   cidr_block           = "192.168.0.0/16"
   enable_dns_hostnames = true
   enable_dns_support   = true
+}
+
+resource "aws_internet_gateway" "IGW" {
+  vpc_id = aws_vpc.K8s.id
 
   tags = {
-    Name = "k8s"
+    Name = "IGW"
   }
 }
 
-resource "aws_internet_gateway" "k8s" {
-    vpc_id = aws_vpc.k8s.id
+# Create two public and two private subnets in different AZs
+resource "aws_subnet" "my_subnet" {
+  count = 2
 
-  tags = {
-    Name = "k8s"
-  }
+  vpc_id                  = aws_vpc.K8s.id
+  cidr_block              = "192.168.${1 + count.index}.0/24"
+  availability_zone       = element(var.availability_zones, count.index)
+  map_public_ip_on_launch = true
 }
 
-resource "aws_route_table" "k8s" {
-    vpc_id = aws_vpc.k8s.id
+resource "aws_route_table" "Public_RT" {
+  vpc_id = aws_vpc.K8s.id
 
   route {
     cidr_block = "0.0.0.0/0"
-    gateway_id = aws_internet_gateway.k8s.id
+    gateway_id = aws_internet_gateway.IGW.id
   }
 
   tags = {
-    Name = "k8s"
-  }
-}   
-
-resource "aws_subnet" "my_subnet_1" {
-  vpc_id            = aws_vpc.k8s.id
-  cidr_block        = "192.168.1.0/24"
-  availability_zone = "eu-west-2a"
-  map_public_ip_on_launch = true
-
-  tags = {
-    Name = "my_subnet_1"
-  }
-}
-
-resource "aws_subnet" "my_subnet_2" {
-  vpc_id            = aws_vpc.k8s.id
-  cidr_block        = "192.168.2.0/24"
-  availability_zone = "eu-west-2b"
-  map_public_ip_on_launch = true
-
-  tags = {
-    Name = "my_subnet_2"
-  }
-}
-
-resource "aws_subnet" "my_subnet_3" {
-  vpc_id            = aws_vpc.k8s.id
-  cidr_block        = "192.168.3.0/24"
-  availability_zone = "eu-west-2c"
-  map_public_ip_on_launch = true
-
-  tags = {
-    Name = "my_subnet_2"
+    Name = "Public_RT"
   }
 }
 
 resource "aws_route_table_association" "k8s" {
-    count = 3
-    route_table_id = aws_route_table.k8s.id
-    subnet_id = count.index % 3 == 0 ? aws_subnet.my_subnet_1.id : count.index % 3 == 1 ? aws_subnet.my_subnet_2.id : aws_subnet.my_subnet_3.id
-
+  count          = 2
+  route_table_id = aws_route_table.Public_RT.id
+  subnet_id      = count.index % 2 == 0 ? aws_subnet.my_subnet[0].id : aws_subnet.my_subnet[1].id
 }

@@ -3,9 +3,13 @@ output "eks_login" {
 }
 
 output "node1" {
-  value = "ssh -i ${aws_key_pair.key_pair.key_name}.pem ec2-user@${data.aws_instance.instance1.public_ip}"
+  value = "ssh -i ${aws_key_pair.key_pair.key_name}.pem root@${data.aws_instance.instance1.public_ip}"
 }
 
 output "node2" {
-  value = "ssh -i ${aws_key_pair.key_pair.key_name}.pem ec2-user@${data.aws_instance.instance2.public_ip}"
+  value = "ssh -i ${aws_key_pair.key_pair.key_name}.pem root@${data.aws_instance.instance2.public_ip}"
+}
+
+output "node3" {
+  value = "ssh -i ${aws_key_pair.key_pair.key_name}.pem root@${data.aws_instance.instance3.public_ip}"
 }

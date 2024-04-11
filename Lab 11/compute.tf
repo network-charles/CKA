@@ -1,35 +1,52 @@
-# Create a launch template for ASG 
-resource "aws_launch_template" "lt" {
-  image_id               = data.aws_ami.amazon.id
-  instance_type          = "t3.small"
-  vpc_security_group_ids = [aws_security_group.sg.id]
-  # amazon linux rhel 
-  # user_data = filebase64("${path.module}/k8s_amazon_rhel.sh")
-  # ubuntu 
-  user_data = filebase64("${path.module}/k8s_ubuntu.sh")
+resource "aws_eks_cluster" "eks" {
+  name     = "eks"
+  role_arn = aws_iam_role.eks-iam-role.arn
 
-  iam_instance_profile {
-    name = aws_iam_instance_profile.ec2.name
+  vpc_config {
+    endpoint_public_access = true
+    subnet_ids = [
+      aws_subnet.my_subnet[0].id,
+      aws_subnet.my_subnet[1].id
+    ]
+    security_group_ids = [aws_security_group.sg.id]
   }
+
+  kubernetes_network_config {
+    service_ipv4_cidr = "10.2.0.0/24"
+    ip_family         = "ipv4"
+  }
+
+  depends_on = [
+    aws_iam_role.eks-iam-role
+  ]
 }
 
-# Create an ASG with a launch template and tag.
-resource "aws_autoscaling_group" "asg" {
-  name                = "asg"
-  desired_capacity    = 3
-  max_size            = 3
-  min_size            = 3
-  vpc_zone_identifier = [aws_subnet.my_subnet_1.id, aws_subnet.my_subnet_2.id, aws_subnet.my_subnet_3.id]
+resource "aws_eks_node_group" "worker-node-group" {
+  cluster_name    = aws_eks_cluster.eks.name
+  node_group_name = "workernodes"
+  node_role_arn   = aws_iam_role.worker-nodes-iam-role.arn
+  subnet_ids = [
+    aws_subnet.my_subnet[0].id,
+    aws_subnet.my_subnet[1].id
+  ]
 
-  launch_template {
-    id      = aws_launch_template.lt.id
-    version = "$Latest"
+  capacity_type  = "SPOT"
+  instance_types = ["t3.small"]
+  disk_size      = "20"
+
+  scaling_config {
+    desired_size = 2
+    max_size     = 2
+    min_size     = 2
   }
 
-  tag {
-    key                 = "Name"
-    value               = "asg"
-    propagate_at_launch = true
+  remote_access {
+    ec2_ssh_key = aws_key_pair.key_pair.key_name
   }
 
+  depends_on = [
+    aws_iam_role_policy_attachment.AmazonEKSWorkerNodePolicy,
+    aws_iam_role_policy_attachment.AmazonEKS_CNI_Policy,
+    aws_iam_role_policy_attachment.AmazonEC2ContainerRegistryReadOnly-Node,
+  ]
 }

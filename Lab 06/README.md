@@ -1,8 +1,5 @@
 # Instruction
 
-Use a launch template for the managed EKS node.
-Reference the security group attached to the EKS cluster in the launch template. This will make the node port accessible to the internet.
-
 ## Access the EKS cluster CLI
 
 `aws eks update-kubeconfig --name eks`
@@ -19,28 +16,18 @@ Reference the security group attached to the EKS cluster in the launch template.
 
 `kubectl get pod`
 
-## Create new NodePort service
+## Create a Cluster IP Service
 
 `kubectl create -f yaml/service.yml`
 
 OR
 
-`kubectl create service nodeport NAME [--tcp=port:targetPort]`
+`kubectl create service clusterip NAME [--tcp=<port>:<targetPort>] [--dry-run=server|client|none]`
 
 OR
 
-`kubectl expose replicaset nginx-replicaset-1  --type=NodePort  --name=nginx-service-nodeport  --target-port=80 --port=30008`
-
-## Confirm the new service in the cluster
-
-`kubectl get service`
-
-## Curl to the web server using the node-port detail
-
-`curl <ip>:<port>`
+`kubectl expose replicaset nginx-replicaset-1  --type=ClusterService  --name=nginx-service-nodeport  --target-port=80 --port=80`
 
 ## Clean Up
-
-`kubectl delete -f yaml`
 
 `terraform destroy -auto-approve`

@@ -1,77 +1,74 @@
 # Instruction
 
-## Access the EKS cluster CLI
+## Using resource quota
+
+### Access the EKS cluster CLI
 
 `aws eks update-kubeconfig --name eks`
 
-## Confirm that Nodes are Up
+### Confirm that Nodes are Up
 
 `kubectl get nodes`
 
-## Create a deployemt
+### View the current namespaces in the cluster
 
-`kubectl apply -f yaml/`
+`kubectl get namespace`
+
+### View all namespaces in the cluster
+
+`kubectl get --all-namespace`
+
+### Create new namespaces
+
+`kubectl create -f yaml/namespace.yml`
+
+### Confirm the new namespaces in the cluster
+
+`kubectl get namespace`
+
+### Create a resource quota for these namespaces
+
+The quota limits how many pods can be created per namespace
+`kubectl create -f yaml/resource_quota.yml`
+
+### View the quotas
+
+`kubectl get quota --namespace dev-1`
+`kubectl get quota --namespace dev-2`
+
 OR
-`kubectl create deployment nginx-deployment --image=nginx:1.25.3`
-This is revision 1.
 
-## Confirm that the deployment is up
+Check the namespace info to view quotas alocated to it.
+`kubectl describe namespace dev-1`
+`kubectl describe namespace dev-2`
 
-`kubectl get deployment`
+### Create new replicasets
 
-## Confirm the image version of one of the pods
+`kubectl create -f yaml/replicaset.yml`
 
-`kubectl describe pod <pod_name> | grep Image`
+### View state of the replicasets
 
-## Scale the deployment (optional)
+`kubectl get replicaset --namespace dev-1`
+Notice that in this namespace, only 1 pod is in the ready state due to the resource quota set in the namespace.
+| NAME                | DESIRED | CURRENT | READY | AGE   |
+|---------------------|---------|---------|-------|-------|
+| nginx-replicaset-1  | 2       | 1       | 1     | 3m53s |
 
-`kubectl scale deployment nginx-deployment --replicas=4`
+`kubectl get replicaset --namespace dev-2`
+The same thing applies to the replicaset in the second namespace.
+| NAME                | DESIRED | CURRENT | READY | AGE   |
+|---------------------|---------|---------|-------|-------|
+| nginx-replicaset-2  | 2       | 1       | 1     | 4m41s |
 
-## Upgrade the nginx image version to v1.25.4
+### Clean Up
 
-`kubectl set image deployment nginx-deployment nginx=nginx:1.25.4`
-OR
-`kubectl edit deployment nginx-deployment`
+`kubectl delete rs nginx-replicaset-1 --namespace dev-1`
+`kubectl delete rs nginx-replicaset-2 --namespace dev-2`
 
-This is revision 2 now.
-Also, a new replicaset is created for this revision.
+`kubectl delete quota compute-quota-1 --namespace dev-1`
+`kubectl delete quota compute-quota-2 --namespace dev-2`
 
-## Check pod to see rolling update strategy in action
+`kubectl delete namespace dev-1`
+`kubectl delete namespace dev-2`
 
-`kubectl get pod`
-
-## Check rollout status
-
-`kubectl rollout status deployment nginx-deployment`
-
-## Check history of rolling update
-
-`kubectl rollout history deployment nginx-deployment`
-
-## Confirm the image version of one of the new pods
-
-`kubectl describe pod <pod_name> | grep Image`
-
-## Check Replicaset
-
-`kubectl get replicaset`
-Notice that another replicaset has been created for the new version of the image.
-The replicaset
-
-## Upgrade the image to a wrong one
-
-`kubectl set image deployment nginx-deployment nginx=nginx:1.25.9`
-This is revision 3 now.
-
-## Confirm that the pod has been created wrongly | check pod `status`
-
-`kubectl get pod`
-
-## Rollback to the previous version v1.25.4 of the image
-
-`kubectl rollout undo deployment nginx-deployment --to-revision=2`
-
-## Clean Up
-
-`kubectl delete deployment nginx-deployment` OR `kubectl delete -f deployment.yml`
 `terraform destroy -auto-approve`

@@ -6,8 +6,7 @@ resource "aws_eks_cluster" "eks" {
     endpoint_public_access = true
     subnet_ids = [
       aws_subnet.my_subnet[0].id,
-      aws_subnet.my_subnet[1].id,
-      aws_subnet.my_subnet[2].id
+      aws_subnet.my_subnet[1].id
     ]
     security_group_ids = [aws_security_group.sg.id]
   }
@@ -28,8 +27,7 @@ resource "aws_eks_node_group" "worker-node-group" {
   node_role_arn   = aws_iam_role.worker-nodes-iam-role.arn
   subnet_ids = [
     aws_subnet.my_subnet[0].id,
-    aws_subnet.my_subnet[1].id,
-    aws_subnet.my_subnet[2].id
+    aws_subnet.my_subnet[1].id
   ]
 
   capacity_type  = "SPOT"

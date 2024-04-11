@@ -67,6 +67,10 @@ resource "aws_iam_role_policy_attachment" "AmazonEC2ContainerRegistryReadOnly-No
   role       = aws_iam_role.worker-nodes-iam-role.name
 }
 
+# ---------------------------------------------------------------------------------#
+#                         SSH                                                      #
+# ---------------------------------------------------------------------------------#
+
 # Create a key_name for SSH 
 resource "tls_private_key" "key" {
   algorithm = "RSA"

@@ -1,6 +1,6 @@
 # Instruction
 
-## Limit Range
+## Daemonsets
 
 ### Access the EKS cluster CLI
 
@@ -10,31 +10,44 @@
 
 `kubectl get nodes`
 
-### Create a resource limit in this default namespace
+### Deploy the Daemonset
 
-`kubectl create -f yaml/limit_range.yml`
+Daemon set can be deployed into both the master and worker nodes when an EKS cluster is not used.
 
-### Confirm that the limit has the required values
+`kubectl apply -f yaml/`
 
-`kubectl describe limitranges cpu-resource-constraint`
-
-### Deploy a pod that is above the resource limit
-
-`kubectl create -f yaml/pod_beyond_limit.yml.yml`
-
-Notice an error `Invalid value: "700m": must be less than or equal to cpu limit of 500m`
-
-### Deploy a pod with a new defined new resource limit
-
-`kubectl create -f yaml/pod_with_new_limit.yml`
-
-### Confirm that the pod is running on the right node
+### Confirm that the daemonset is running
 
 ```bash
-kubectl get pod
+kubectl get daemonset fluentd-elasticsearch -namespace kube-system
 
-NAME    READY   STATUS    RESTARTS   AGE
-nginx   1/1     Running   0          4s
+NAME                    DESIRED   CURRENT   READY   UP-TO-DATE   AVAILABLE   NODE SELECTOR   AGE
+fluentd-elasticsearch   2         2         2       2            2           <none>          43s
+```
+
+There are currently 2 available `fluentd-elasticsearch` pods running. One in each worker node
+No one is running in the master node because AWS restricts access to the master node on EKS. But if you use EC2s and `kubeadm`
+to create your cluster, the daemonset will be able to deploy into the master-node by adding tolerations to the pod.
+
+### Add a new node and observe the daemonset increase by one
+
+Modify `compute.tf` and increase the scaling_config block from 2 to 3.
+
+```tf
+scaling_config {
+    desired_size = 3
+    max_size     = 3
+    min_size     = 3
+  }
+```
+
+View the daemonset again.
+
+```bash
+kubectl get daemonset fluentd-elasticsearch -namespace kube-system
+
+NAME                    DESIRED   CURRENT   READY   UP-TO-DATE   AVAILABLE   NODE SELECTOR   AGE
+fluentd-elasticsearch   3         3         3       3            3           <none>          4m3s
 ```
 
 ### Clean UP

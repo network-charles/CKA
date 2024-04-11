@@ -48,7 +48,7 @@ data "aws_iam_policy" "EC2InstanceProfileForImageBuilderECRContainerBuilds" {
   name = "EC2InstanceProfileForImageBuilderECRContainerBuilds"
 }
 
-data "aws_instance" "instance1" {
+data "aws_instance" "instance" {
   filter {
     name   = "tag:eks:cluster-name"
     values = ["eks"]
@@ -57,30 +57,6 @@ data "aws_instance" "instance1" {
   filter {
     name   = "instance-state-name"
     values = ["running"]
-  }
-
-  filter {
-    name   = "availability-zone"
-    values = ["eu-west-2a"]
-  }
-
-  depends_on = [aws_eks_node_group.worker-node-group]
-}
-
-data "aws_instance" "instance2" {
-  filter {
-    name   = "tag:eks:cluster-name"
-    values = ["eks"]
-  }
-
-  filter {
-    name   = "instance-state-name"
-    values = ["running"]
-  }
-
-  filter {
-    name   = "availability-zone"
-    values = ["eu-west-2b"]
   }
 
   depends_on = [aws_eks_node_group.worker-node-group]

@@ -31,7 +31,7 @@ resource "aws_eks_node_group" "worker-node-group" {
   ]
 
   capacity_type  = "SPOT"
-  instance_types = ["t3.small"]
+  instance_types = ["t3.medium"]
   disk_size      = "20"
 
   scaling_config {
