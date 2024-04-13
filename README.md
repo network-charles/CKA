@@ -215,6 +215,6 @@ dynamodb_table = "table-name"
 
 ## Lab 26
 
-### Configure a deployment and use a dynamic local volume type with a persistent volume, persistent volume claim, and a snapshot
+### Configure a deployment and use a dynamic local volume type with a persistent volume, persistent volume claim and a snapshot
 
 ![Lab 26](./Images/Lab%2026.png)
