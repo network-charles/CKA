@@ -55,7 +55,8 @@ dynamodb_table = "table-name"
 23. [Lab 23a: Configure a deployment and use a hostPath volume type](#lab-23a)
 24. [Lab 23b: Configure a deployment and use a hostPath volume type with a persistent volume and persistent volume claim](#lab-23b)
 25. [Lab 24: Configure a deployment and use a static local volume type with a persistent volume and persistent volume claim](#lab-24)
-26. [Lab 25: Configure a deployment and use a dynamic local volume type with a persistent volume, persistent volume claim, and a snapshot](#lab-25)
+26. [Lab 25: Configure a deployment and use a dynamic local volume type with a persistent volume, persistent volume claim](#lab-25)
+27. [Lab 26: Configure a deployment and use a dynamic local volume type with a persistent volume, persistent volume claim, and a snapshot](#lab-26)
 
 ## Lab 01
 
