@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: myapp-deployment
+  labels:
+    app: myapp-deployment
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: myapp-pod
+  template:
+    metadata:
+      labels:
+        app: myapp-pod
+    spec:
+      volumes:
+        - name: myapp-pv
+          persistentVolumeClaim:
+            claimName: myapp-pvc
+            
+      containers:
+      - name: myapp-container
+        image: nginx:alpine
+        ports:
+        - containerPort: 80
+        volumeMounts:
+          - name: myapp-pv
+            mountPath: /mnt/myapp-pv/
+        command: ["/bin/sh"]
+        args: ["-c", "touch /mnt/myapp-pv/myfile.txt && nginx -g 'daemon off;'"]
+        # Here, touch /mnt/myapp-pv/myfile.txt creates a new file named myfile.txt in your specified directory. After creating the file, it starts the Nginx server with nginx -g 'daemon off;' to ensure the container continues to serve content as expected.
+
+        # For a snapshot to be created, a new file must be created in the specified directory. The touch command is used to create the file.

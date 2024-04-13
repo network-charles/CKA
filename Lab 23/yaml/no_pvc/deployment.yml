@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: myapp-deployment
+  labels:
+    app: myapp-deployment
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: myapp-pod
+  template:
+    metadata:
+      labels:
+        app: myapp-pod
+    spec:
+      volumes:
+        - name: myapp-pv
+          hostPath:
+            path: /mount
+            type: Directory 
+            
+      containers:
+      - name: myapp-container
+        image: nginx:alpine
+        ports:
+        - containerPort: 80
+        volumeMounts:
+          - name: myapp-pv
+            mountPath: /mnt/myapp-pv/
+              

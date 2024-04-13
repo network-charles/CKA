@@ -48,7 +48,14 @@ dynamodb_table = "table-name"
 19. [Lab 19: Use a ConfigMap to Dynamically Pass Configs to a Container in a Pod via its Environmental Variables](#lab-19)
 20. [Lab 20: Attach a Secrets object to a Pod](#lab-20)
 21. [Lab 21: Configure a multi-container Pod and send each log to a file](#lab-21)
-22. [Lab 22: Configure init-container Pods which uses(#lab-22) two services](#lab-22)
+22. [Lab 22: Configure init-container Pods which uses two services](#lab-22)
+
+### Storage
+
+23. [Lab 23a: Configure a deployment and use a hostPath volume type](#lab-23a)
+24. [Lab 23b: Configure a deployment and use a hostPath volume type with a persistent volume and persistent volume claim](#lab-23b)
+25. [Lab 24: Configure a deployment and use a static local volume type with a persistent volume and persistent volume claim](#lab-24)
+26. [Lab 25: Configure a deployment and use a dynamic local volume type with a persistent volume, persistent volume claim, and a snapshot](#lab-25)
 
 ## Lab 01
 
@@ -181,3 +188,33 @@ dynamodb_table = "table-name"
 ### Configure init-container Pods which uses two services
 
 ![Lab 22](./Images/Lab%2022.png)
+
+## Lab 23a
+
+### Configure a deployment and use a hostPath volume type
+
+![Lab 23a](./Images/Lab%2023a.png)
+
+## Lab 23b
+
+### Configure a deployment and use a hostPath volume type with a persistent volume and persistent volume claim
+
+![Lab 23b](./Images/Lab%2023b.png)
+
+## Lab 24
+
+### Configure a deployment and use a static local volume type with a persistent volume and persistent volume claim
+
+![Lab 24](./Images/Lab%2024.png)
+
+## Lab 25
+
+### Configure a deployment and use a dynamic local volume type with a persistent volume and persistent volume claim
+
+![Lab 25](./Images/Lab%2025.png)
+
+## Lab 26
+
+### Configure a deployment and use a dynamic local volume type with a persistent volume, persistent volume claim, and a snapshot
+
+![Lab 26](./Images/Lab%2026.png)

@@ -1,0 +1,11 @@
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: myapp-pvc
+spec:
+  accessModes:
+  - ReadWriteOnce
+  storageClassName: ebs-storage
+  resources:
+    requests:
+      storage: 4Gi
