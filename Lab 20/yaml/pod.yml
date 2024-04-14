@@ -9,7 +9,7 @@ spec:
       # Execute the bellow command & argument in the terminal
       command: ["/bin/sh"]
       args: ["-c", "echo The database password is $(echo $DB_PASSWORD)"]
-      # Add config map via enviromental variables
+      # Add config map via environmental variables
       env:
       - name: DB_PASSWORD
         valueFrom:

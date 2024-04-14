@@ -58,6 +58,11 @@ dynamodb_table = "table-name"
 26. [Lab 25: Configure a deployment and use a dynamic local volume type with a persistent volume, persistent volume claim](#lab-25)
 27. [Lab 26: Configure a deployment and use a dynamic local volume type with a persistent volume, persistent volume claim, and a snapshot](#lab-26)
 
+#### Storage for Application Lifecycle Management
+
+28. [Lab 27: Mounting a config map to a deployment as a volume](#lab-27)
+29. [Lab 28: Mounting a secrets to a deployment as a volume](#lab-28)
+
 ## Lab 01
 
 ### Deploy a Kubernetes Cluster on AWS EC2 and attach a Cilium CNI
@@ -219,3 +224,15 @@ dynamodb_table = "table-name"
 ### Configure a deployment and use a dynamic local volume type with a persistent volume, persistent volume claim and a snapshot
 
 ![Lab 26](./Images/Lab%2026.png)
+
+## Lab 27
+
+### Mounting a config map to a deployment as a volume
+
+![Lab 27](./Images/Lab%2027.png)
+
+## Lab 28
+
+### Mounting a secrets to a deployment as a volume
+
+![Lab 28](./Images/Lab%2028.png)

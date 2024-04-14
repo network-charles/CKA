@@ -1,6 +1,6 @@
 # Instruction
 
-## Using Dynamic Local Persistent Volumes
+## Using Dynamic Local Persistent Volumes with a Snapshot
 
 This uses a volume from the node specified via a node affinity.
 
