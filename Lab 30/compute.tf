@@ -61,16 +61,3 @@ resource "aws_eks_addon" "csi_driver" {
   addon_version            = "v1.29.1-eksbuild.1"
   service_account_role_arn = aws_iam_role.eks_ebs_csi_driver.arn
 }
-
-#-------------------------------------------------------------------------------#
-#               AWS EBS Volume 4GB                                              #
-#-------------------------------------------------------------------------------#
-
-resource "aws_ebs_volume" "persistent_volume" {
-  availability_zone = "eu-west-2a"
-  size              = 8
-
-  tags = {
-    Name = "persistent_volume"
-  }
-}

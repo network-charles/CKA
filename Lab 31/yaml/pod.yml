@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: unschedulable-pod
+spec:
+  containers:
+  - image: nginx:alpine
+    name: new
+    resources: {}
+  #nodeName: ip-192-168-2-210.eu-west-2.compute.internal
+  nodeSelector:
+    kubernetes.io/hostname: ip-192-168-2-210.eu-west-2.compute.internal
+    
+  dnsPolicy: ClusterFirst
+  restartPolicy: Always
+status: {}

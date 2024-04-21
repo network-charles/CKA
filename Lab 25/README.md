@@ -1,6 +1,6 @@
 # Instruction
 
-## Using Dynamic Local Persistent Volumes
+## Using Dynamic EBS Persistent Volumes
 
 This uses a volume from the node specified via a node affinity.
 

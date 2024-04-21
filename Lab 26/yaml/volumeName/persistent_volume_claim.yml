@@ -5,7 +5,8 @@ metadata:
 spec:
   accessModes:
     - ReadWriteOnce
-  storageClassName: ebs-storage
+  storageClassName: ""
   resources:
     requests:
-      storage: 4Gi
+      storage: 8Gi
+  volumeName: cluster-pv

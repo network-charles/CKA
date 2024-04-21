@@ -4,15 +4,15 @@ metadata:
   name: cluster-pv
 spec:
   capacity:
-    storage: 1Gi
+    storage: 8Gi
   volumeMode: Filesystem
   accessModes:
-  - ReadWriteOnce
+    - ReadWriteOnce
   persistentVolumeReclaimPolicy: Delete
-  storageClassName: local-path
-  hostPath:
-    path: /mnt/
-    type: Directory
+  storageClassName: ""
+  csi:
+    driver: ebs.csi.aws.com
+    volumeHandle: vol-0cc43b2b454df0a24
   nodeAffinity:
     required:
       nodeSelectorTerms:
@@ -20,5 +20,5 @@ spec:
         - key: kubernetes.io/hostname
           operator: In
           values:
-          - node01 # The node to be scheduled to.
+          - ip-192-168-1-151.eu-west-2.compute.internal # The node to be scheduled to.
           

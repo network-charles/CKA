@@ -1,6 +1,6 @@
 # Instruction
 
-## Mounting a secret to a deployment as a volume
+## Using Dynamic Local Persistent Volumes with a Snapshot
 
 This uses a volume from the node specified via a node affinity.
 
@@ -12,37 +12,72 @@ This uses a volume from the node specified via a node affinity.
 
 `kubectl get nodes`
 
-### Optionally Encode the Password
+### Apply the required [Custom Resource Definition (CRD)](https://github.com/kubernetes-csi/external-snapshotter/tree/master/client/config/crd)
 
-`echo -n 'my_password' | base64`
-
-Add the Base64 encoded value to the data portion of the secrets object.
-
-### Deploy a Kubernetes secret object
-
-The value of the secrets is injected into the pod via an environmental variable. Other methods exist, see [K8s Secrets](https://kubernetes.io/docs/concepts/configuration/secret/#using-a-secret).
+A Custom Resource Definition (CRD) is an extension of the Kubernetes application programming interface (API).
 
 ```bash
-kubectl create -f yaml/secrets.yml
-OR
-kubectl create secret generic db-secret --from-literal=DB_PASSWORD='my_password'
+kubectl create -f https://raw.githubusercontent.com/kubernetes-csi/external-snapshotter/master/client/config/crd/snapshot.storage.k8s.io_volumesnapshotclasses.yaml
+
+kubectl create -f https://raw.githubusercontent.com/kubernetes-csi/external-snapshotter/master/client/config/crd/snapshot.storage.k8s.io_volumesnapshotcontents.yaml
+
+kubectl create -f https://raw.githubusercontent.com/kubernetes-csi/external-snapshotter/master/client/config/crd/snapshot.storage.k8s.io_volumesnapshots.yaml
 ```
 
-### Provision a deployment
+### Apply the [Snapshot Controller](https://github.com/kubernetes-csi/external-snapshotter/tree/master/deploy/kubernetes/snapshot-controller)
+
+```bash
+kubectl create -f https://raw.githubusercontent.com/kubernetes-csi/external-snapshotter/master/deploy/kubernetes/snapshot-controller/kustomization.yaml
+
+kubectl create -f https://raw.githubusercontent.com/kubernetes-csi/external-snapshotter/master/deploy/kubernetes/snapshot-controller/rbac-snapshot-controller.yaml
+
+kubectl create -f https://raw.githubusercontent.com/kubernetes-csi/external-snapshotter/master/deploy/kubernetes/snapshot-controller/setup-snapshot-controller.yaml
+```
+
+### Create a dynamic persistent volume claim
+
+`kubectl create -f yaml/persistent_volume_claim.yml`
+
+### Create a storage class
+
+`kubectl create -f yaml/storage_class.yml`
+
+### Create a snapshot class
+
+`kubectl create -f yaml/snapshot_class.yml`
+
+### Provision the deployment
+
+A new file has already been created using the argument variable in the deployment manifest.
 
 `kubectl create -f yaml/deployment.yml`
 
-### Access one of the pod to confirm the config is mounted in the file path
+### Create a snapshot
+
+`kubectl create -f yaml/snapshot.yml`
+
+### Confirm if the persistent volume has been dynamically provisioned
 
 ```bash
-kubectl exec -it <pod_name> -- sh
-cd /mnt
-ls
+kubectl get persistentvolume                                                                                                     
+NAME                                       CAPACITY   ACCESS MODES   RECLAIM POLICY   STATUS   CLAIM               STORAGECLASS   VOLUMEATTRIBUTESCLASS   REASON   AGE
+pvc-56c47d38-f494-4ccd-8c79-b9ffded6d578   4Gi        RWO            Delete           Bound    default/myapp-pvc   ebs-storage    <unset>                          15s
 ```
 
-And yes, a file exists.
+### Confirm if the snapshot and snapshot-content has been dynamically provisioned
 
-`DB_PASSWORD`
+```bash
+kubectl get volumesnapshot
+                                                                                              
+NAME           READYTOUSE   SOURCEPVC   SOURCESNAPSHOTCONTENT   RESTORESIZE   SNAPSHOTCLASS   SNAPSHOTCONTENT                                    CREATIONTIME   AGE
+new-snapshot   true         myapp-pvc                           4Gi           ebs-vsc         snapcontent-74160888-d667-49cd-8154-0850eed34635   61s            99s
+
+
+kubectl get volumesnapshotcontent
+
+NAME                                               READYTOUSE   RESTORESIZE   DELETIONPOLICY   DRIVER            VOLUMESNAPSHOTCLASS   VOLUMESNAPSHOT   VOLUMESNAPSHOTNAMESPACE   AGE
+snapcontent-74160888-d667-49cd-8154-0850eed34635   false        4294967296    Delete           ebs.csi.aws.com   ebs-vsc               new-snapshot     default                   15s
+```
 
 ### Clean UP
 

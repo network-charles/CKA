@@ -15,9 +15,9 @@ spec:
         app: myapp-pod
     spec:
       volumes:
-        - name: myapp-pv
-          persistentVolumeClaim:
-            claimName: myapp-pvc
+        - name: secret-volume
+          secret:
+            secretName: db-secret
             
       containers:
       - name: myapp-container
@@ -25,6 +25,5 @@ spec:
         ports:
         - containerPort: 80
         volumeMounts:
-          - name: myapp-pv
-            mountPath: /mnt/myapp-pv/
-              
+          - name: secret-volume
+            mountPath: /mnt

@@ -54,14 +54,22 @@ dynamodb_table = "table-name"
 
 23. [Lab 23a: Configure a deployment and use a hostPath volume type](#lab-23a)
 24. [Lab 23b: Configure a deployment and use a hostPath volume type with a persistent volume and persistent volume claim](#lab-23b)
-25. [Lab 24: Configure a deployment and use a static local volume type with a persistent volume and persistent volume claim](#lab-24)
-26. [Lab 25: Configure a deployment and use a dynamic local volume type with a persistent volume, persistent volume claim](#lab-25)
-27. [Lab 26: Configure a deployment and use a dynamic local volume type with a persistent volume, persistent volume claim, and a snapshot](#lab-26)
+25. [Lab 24: Configure a deployment and use a static local volume type with a persistent volume and persistent volume claim](#lab-28)
+26. [Lab 25: Configure a deployment and use a dynamic EBS volume type with a persistent volume, persistent volume claim](#lab-25)
+27. [Lab 26: Configure a deployment and use a static EBS volume type with a persistent volume, persistent volume claim](#lab-26)
+
+29. [Lab 28: Configure a deployment and use a dynamic local volume type with a persistent volume, persistent volume claim, and a snapshot](#lab-28)
 
 #### Storage for Application Lifecycle Management
 
-28. [Lab 27: Mounting a config map to a deployment as a volume](#lab-27)
-29. [Lab 28: Mounting a secrets to a deployment as a volume](#lab-28)
+30. [Lab 29: Mounting a config map to a deployment as a volume](#lab-29)
+31. [Lab 30: Mounting secrets to a deployment as a volume](#lab-30)
+
+#### Cluster Maintenance
+
+32. [Lab 31: Performing OS patches on a node](#lab-31)
+33. [Lab 32: Upgrading/Downgrading a cluster](#lab-32)
+34. [Lab 33: Backup & Restore an ETCD Cluster using a Volume](#lab-33)
 
 ## Lab 01
 
@@ -215,24 +223,50 @@ dynamodb_table = "table-name"
 
 ## Lab 25
 
-### Configure a deployment and use a dynamic local volume type with a persistent volume and persistent volume claim
+### Configure a deployment and use a dynamic EBS volume type with a persistent volume and persistent volume claim
 
 ![Lab 25](./Images/Lab%2025.png)
 
 ## Lab 26
 
-### Configure a deployment and use a dynamic local volume type with a persistent volume, persistent volume claim and a snapshot
+### Configure a deployment and use a static EBS volume type with a persistent volume and persistent volume claim
 
 ![Lab 26](./Images/Lab%2026.png)
 
-## Lab 27
 
-### Mounting a config map to a deployment as a volume
-
-![Lab 27](./Images/Lab%2027.png)
 
 ## Lab 28
 
-### Mounting a secrets to a deployment as a volume
+### Configure a deployment and use a dynamic local volume type with a persistent volume, persistent volume claim and a snapshot
 
 ![Lab 28](./Images/Lab%2028.png)
+
+## Lab 29
+
+### Mounting a config map to a deployment as a volume
+
+![Lab 29](./Images/Lab%2029.png)
+
+## Lab 30
+
+### Mounting secrets to a deployment as a volume
+
+![Lab 30](./Images/Lab%2030.png)
+
+## Lab 31
+
+### Performing OS patches on a node
+
+![Lab 31](./Images/Lab%2031.png)
+
+## Lab 32
+
+### Upgrading/Downgrading a Cluster
+
+![Lab 32](./Images/Lab%2032.png)
+
+## Lab 33
+
+### Backup & Restore an ETCD Cluster using a Volume
+
+![Lab 33](./Images/Lab%2033.png)

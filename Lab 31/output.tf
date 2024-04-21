@@ -9,7 +9,3 @@ output "node1" {
 output "node2" {
   value = "ssh -i ${aws_key_pair.key_pair.key_name}.pem root@${data.aws_instance.instance2.public_ip}"
 }
-
-output "persistent_volume" {
-  value = aws_ebs_volume.persistent_volume.id
-}

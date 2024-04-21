@@ -1,8 +1,8 @@
 # Instruction
 
-## Using Dynamic Local Persistent Volumes with a Snapshot
+## Using Static Persistent Volumes
 
-This uses a volume from the node specified via a node affinity.
+This example focuses on using a `selector`. If you want to use `volumeName` it's more direct, no need to label the persistent volume.
 
 ### Access the EKS cluster CLI
 
@@ -12,76 +12,91 @@ This uses a volume from the node specified via a node affinity.
 
 `kubectl get nodes`
 
-### Apply the required [Custom Resource Definition (CRD)](https://github.com/kubernetes-csi/external-snapshotter/tree/master/client/config/crd)
+### Create a static persistent volume
 
-A Custom Resource Definition (CRD) is an extension of the Kubernetes application programming interface (API).
+`kubectl create -f yaml/selector/persistent_volume.yml`
+
+### Label the persistent volume (optional)
+
+If you prefer, you can remove the `labels` in the manifest file and label it directly.
+
+`kubectl label persistentvolume cluster-pv type=ebs-storage`
+
+### Create a static persistent volume claim (selector)
+
+`kubectl create -f yaml/selector/persistent_volume_claim.yml`
+
+### Confirm if the PVC and PV have been bounded
 
 ```bash
-kubectl create -f https://raw.githubusercontent.com/kubernetes-csi/external-snapshotter/master/client/config/crd/snapshot.storage.k8s.io_volumesnapshotclasses.yaml
+kubectl get persistentvolumeclaim
 
-kubectl create -f https://raw.githubusercontent.com/kubernetes-csi/external-snapshotter/master/client/config/crd/snapshot.storage.k8s.io_volumesnapshotcontents.yaml
-
-kubectl create -f https://raw.githubusercontent.com/kubernetes-csi/external-snapshotter/master/client/config/crd/snapshot.storage.k8s.io_volumesnapshots.yaml
+NAME        STATUS   VOLUME       CAPACITY   ACCESS MODES   STORAGECLASS   VOLUMEATTRIBUTESCLASS   AGE
+myapp-pvc   Bound    cluster-pv   4Gi        RWO                           <unset>                 6s
 ```
 
-### Apply the [Snapshot Controller](https://github.com/kubernetes-csi/external-snapshotter/tree/master/deploy/kubernetes/snapshot-controller)
-
-```bash
-kubectl create -f https://raw.githubusercontent.com/kubernetes-csi/external-snapshotter/master/deploy/kubernetes/snapshot-controller/kustomization.yaml
-
-kubectl create -f https://raw.githubusercontent.com/kubernetes-csi/external-snapshotter/master/deploy/kubernetes/snapshot-controller/rbac-snapshot-controller.yaml
-
-kubectl create -f https://raw.githubusercontent.com/kubernetes-csi/external-snapshotter/master/deploy/kubernetes/snapshot-controller/setup-snapshot-controller.yaml
-```
-
-### Create a dynamic persistent volume claim
-
-`kubectl create -f yaml/persistent_volume_claim.yml`
-
-### Create a storage class
-
-`kubectl create -f yaml/storage_class.yml`
-
-### Create a snapshot class
-
-`kubectl create -f yaml/snapshot_class.yml`
+Yes, it has, `STATUS = Bound`.
 
 ### Provision the deployment
 
-A new file has already been created using the argument variable in the deployment manifest.
+`kubectl apply -f yaml/selector/deployment.yml`
 
-`kubectl create -f yaml/deployment.yml`
-
-### Create a snapshot
-
-`kubectl create -f yaml/snapshot.yml`
-
-### Confirm if the persistent volume has been dynamically provisioned
+### Locate the mounted directory and create a file
 
 ```bash
-kubectl get persistentvolume                                                                                                     
-NAME                                       CAPACITY   ACCESS MODES   RECLAIM POLICY   STATUS   CLAIM               STORAGECLASS   VOLUMEATTRIBUTESCLASS   REASON   AGE
-pvc-56c47d38-f494-4ccd-8c79-b9ffded6d578   4Gi        RWO            Delete           Bound    default/myapp-pvc   ebs-storage    <unset>                          15s
+kubectl exec -it <pod-name> -- sh
+cd mnt/myapp-volume/
+touch new_file.txt
 ```
 
-### Confirm if the snapshot and snapshot-content has been dynamically provisioned
+### View the mounted volume on the node
 
 ```bash
-kubectl get volumesnapshot
-                                                                                              
-NAME           READYTOUSE   SOURCEPVC   SOURCESNAPSHOTCONTENT   RESTORESIZE   SNAPSHOTCLASS   SNAPSHOTCONTENT                                    CREATIONTIME   AGE
-new-snapshot   true         myapp-pvc                           4Gi           ebs-vsc         snapcontent-74160888-d667-49cd-8154-0850eed34635   61s            99s
+# view your available disk devices and their mount points.
+lsblk
 
+NAME          MAJ:MIN RM SIZE RO TYPE MOUNTPOINT
+nvme0n1       259:0    0  20G  0 disk 
+├─nvme0n1p1   259:1    0  20G  0 part /
+└─nvme0n1p128 259:2    0   1M  0 part 
+nvme1n1       259:3    0   8G  0 disk /var/lib/kubelet/pods/6e04e7b0-5a38-4e62-b583-e8892045541d/volumes/kubernetes.io~csi/cluster-pv/
 
-kubectl get volumesnapshotcontent
+# The attached volume is /nvme1n1
+# list the directory
+ls /var/lib/kubelet/pods/6e04e7b0-5a38-4e62-b583-e8892045541d/volumes/kubernetes.io~csi/cluster-pv/
 
-NAME                                               READYTOUSE   RESTORESIZE   DELETIONPOLICY   DRIVER            VOLUMESNAPSHOTCLASS   VOLUMESNAPSHOT   VOLUMESNAPSHOTNAMESPACE   AGE
-snapcontent-74160888-d667-49cd-8154-0850eed34635   false        4294967296    Delete           ebs.csi.aws.com   ebs-vsc               new-snapshot     default                   15s
+mount  vol_data.json
+
+# list the mount directory
+ls /var/lib/kubelet/pods/6e04e7b0-5a38-4e62-b583-e8892045541d/volumes/kubernetes.io~csi/cluster-pv/mount
+
+lost+found  new_file.txt
 ```
+
+Now you see that the file created in the pod exists
+
+### Delete the deployment and recreate it
+
+```bash
+kubectl delete -f yaml/selector/deployment.yml
+kubectl apply -f yaml/selector/deployment.yml
+```
+
+### Locate the mounted directory and see if the file still exists
+
+```bash
+kubectl exec -it <pod-name> -- sh
+cd mnt/myapp-volume/
+ls
+
+lost+found    new_file.txt 
+```
+
+And yes, it exists.
 
 ### Clean UP
 
 ```bash
-kubectl delete -f yaml
+kubectl delete -f yaml/selector/
 terraform destroy -auto-approve
 ```
