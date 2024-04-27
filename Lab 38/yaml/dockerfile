@@ -1,0 +1,11 @@
+# Use the official Python base image
+FROM python:3.9-slim
+
+# Set the working directory in the container
+WORKDIR /app
+
+# Create and write the Python script directly in the Dockerfile
+RUN echo 'print("Hello Docker Hub Repo")' > hello.py
+
+# Run the Python script when the container launches
+CMD ["python", "hello.py"]

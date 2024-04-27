@@ -2,8 +2,6 @@
 
 ## Backup & Restore an ETCD Cluster using a Volume
 
-We will be patching v1.29.3 to v1.29.3
-
 ## Initialize Kubernetes Cluster
 
 `sudo kubeadm init`

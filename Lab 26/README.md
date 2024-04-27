@@ -1,6 +1,6 @@
 # Instruction
 
-## Using Static Persistent Volumes
+## Using Static EBS Persistent Volumes
 
 This example focuses on using a `selector`. If you want to use `volumeName` it's more direct, no need to label the persistent volume.
 

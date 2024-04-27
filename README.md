@@ -71,6 +71,16 @@ dynamodb_table = "table-name"
 33. [Lab 32: Upgrading/Downgrading a cluster](#lab-32)
 34. [Lab 33: Backup & Restore an ETCD Cluster using a Volume](#lab-33)
 
+#### Security
+
+35. [Lab 34: User Authentication using Certificates and kubeconfig](#lab-34)
+36. [Lab 35: User Authorization using Roles and Role Bindings](#lab-35)
+37. [Lab 36: User Authorization using Cluster Roles and Cluster Role Bindings](#lab-36)
+38. [Lab 37: Service Accounts](#lab-37)
+39. [Lab 38: Private Image Repository](#lab-38)
+40. [Lab 39: Security Contexts](#lab-39)
+41. [Lab 40: Network Policies](#lab-40)
+
 ## Lab 01
 
 ### Deploy a Kubernetes Cluster on AWS EC2 and attach a Cilium CNI
@@ -233,7 +243,7 @@ dynamodb_table = "table-name"
 
 ![Lab 26](./Images/Lab%2026.png)
 
-
+## Lab 27 -- in progress
 
 ## Lab 28
 
@@ -270,3 +280,45 @@ dynamodb_table = "table-name"
 ### Backup & Restore an ETCD Cluster using a Volume
 
 ![Lab 33](./Images/Lab%2033.png)
+
+## Lab 34
+
+### User Authentication using Certificates and kubeconfig
+
+![Lab 34](./Images/Lab%2034.png)
+
+## Lab 35
+
+### User Authorization using Roles and Role Bindings
+
+![Lab 35](./Images/Lab%2035.png)
+
+## Lab 36
+
+### User Authorization using Cluster Roles and Cluster Role Bindings
+
+![Lab 36](./Images/Lab%2036.png)
+
+## Lab 37
+
+### Service Accounts
+
+![Lab 37](./Images/Lab%2037.png)
+
+## Lab 38
+
+### Private Image Repository
+
+![Lab 38](./Images/Lab%2038.png)
+
+## Lab 39
+
+### Security Contexts
+
+![Lab 39](./Images/Lab%2039.png)
+
+## Lab 40
+
+### Network Policies
+
+![Lab 40](./Images/Lab%2040.png)

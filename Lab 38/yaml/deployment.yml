@@ -1,0 +1,21 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: python
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: python
+  template:
+    metadata:
+      labels:
+        app: python
+    spec:
+      containers:
+        - name: private
+          image: charlesniklaus/k8s_lab:latest
+          ports:
+            - containerPort: 80
+      imagePullSecrets:
+        - name: my-registry

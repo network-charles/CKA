@@ -13,7 +13,7 @@ We will be downgrading from v1.29.3 to v1.29.2
 
 ## Reinstall Cilium on the Master Node
 
-The CNI plugin don't seem to install successfuly until the cluster is up. So re-install Cilium.
+The CNI plugin doesn't seem to install successfully until the cluster is up. So re-install Cilium.
 `cilium install --version 1.15.0`
 
 ## View Cilium Pods
