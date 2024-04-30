@@ -37,7 +37,7 @@ OR
 
 ## Curl to the web server using the node-port detail
 
-`curl <ip>:<port>`
+`curl <public_ip>:<port>`
 
 ## Clean Up
 
