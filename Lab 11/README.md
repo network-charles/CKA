@@ -64,15 +64,15 @@ nginx   1/1     Running   0          44s   192.168.1.153 ->ip-192-168-1-55.eu-we
 
 `kubectl delete -f yaml/node_affinity_pod_req.yml`
 
-## Node Affinity (preffered)
+## Node Affinity (preferred)
 
 The existing applied node labels configuration will be used.
 
-### Deploy a pod that will be assigned to `eu-west-2c` labelled node using node affinity
+### Deploy a pod that will be assigned to `eu-west-2c` labeled node using node affinity
 
 `kubectl create -f node_affinity_pod_pref.yml`
 
-Notice that since no node is labelled `eu-west-2c` the scheduller still tries to schedule the pod to some other node
+Notice that since no node is labelled `eu-west-2c` the scheduler still tries to schedule the pod to some other node
 
 ```bash
 kubectl get pod
@@ -87,7 +87,7 @@ Pods can be scheduled to nodes based on the labels of Pods already running on th
 
 ### Delete the existing node labels
 
-Only the key is used to delete the label key, value pair.
+Only the key is used to delete the label key-value pair.
 `kubectl label nodes <node_name> az-`
 
 ### Deploy a new pod
@@ -110,7 +110,7 @@ nginx1   1/1     Running   0          2s
 All nodes in the cluster must have the same node label, specified via the `topologyKey`
 
 This new pod will be scheduled to a node in the region if any existing pod has the label `region=eu-west-2`.
-Since a pod already exists in the region, this pod will be deployed succesfully.
+Since a pod already exists in the region, this pod will be deployed successfully.
 
 `kubectl create -f yaml/inter_pod_affinity_pod.yml`
 
@@ -124,7 +124,7 @@ nginx1   1/1     Running   0          4m41s
 nginx2   1/1     Running   0          10s
 ```
 
-From the above output, the pod is running sucessfuly along with the initial pod.
+From the above output, the pod is running successfully along with the initial pod.
 
 ### Delete all pods
 
@@ -137,7 +137,7 @@ kubectl delete -f yaml/inter_pod_affinity_pod.yml
 
 `kubectl create -f yaml/inter_pod_affinity_pod.yml`
 
-Notice that the pod is stuck in pending state because no pod with the label `region=eu-west-2` exists in the cluster.
+Notice that the pod is stuck in a pending state because no pod with the label `region=eu-west-2` exists in the cluster.
 
 ```bash
 NAME     READY   STATUS    RESTARTS   AGE
@@ -156,7 +156,7 @@ The anti-affinity rule specifies that the scheduler should try to avoid scheduli
 
 ### Deploy a new pod again
 
-This pod has a label that will match incoming pods. It is also scheduled to any node in the `eu-west-2` region via the `topology.kubernetes.io/region=eu-west-2a` key value pair.
+This pod has a label that will match incoming pods. It is also scheduled to any node in the `eu-west-2` region via the `topology.kubernetes.io/region=eu-west-2a` key-value pair.
 
 `kubectl create -f yaml/pod.yml`
 
@@ -164,7 +164,7 @@ This pod has a label that will match incoming pods. It is also scheduled to any 
 
 `kubectl create -f yaml/anti_affinity_pod.yml`
 
-Notice that the pod `nginx3` is stuck in pending state because a pod with the label `region=eu-west-2` exists in the cluster.
+Notice that the pod `nginx3` is stuck in a pending state because a pod with the label `region=eu-west-2` exists in the cluster.
 
 ```bash
 kubectl get pod 

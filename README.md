@@ -80,6 +80,8 @@ dynamodb_table = "table-name"
 39. [Lab 38: Private Image Repository](#lab-38)
 40. [Lab 39: Security Contexts](#lab-39)
 41. [Lab 40: Network Policies](#lab-40)
+42. [Lab 41: Multi-Cluster](#lab-41)
+
 
 ## Lab 01
 
@@ -322,3 +324,9 @@ dynamodb_table = "table-name"
 ### Network Policies
 
 ![Lab 40](./Images/Lab%2040.png)
+
+## Lab 41
+
+### Multi-Cluster
+
+![Lab 41](./Images/Lab%2041.png)
