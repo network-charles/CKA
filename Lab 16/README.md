@@ -33,6 +33,7 @@ v1beta1.metrics.k8s.io                 kube-system/metrics-server   False (Missi
 
 Edit the running deployment manifest.
 `kubectl edit deploy metrics-server --namespace kube-system`
+
 Add `--kubelet-insecure-tls=true` to the container argument `args` list.
 
 ### Create a pod that uses the custom scheduler

@@ -1,6 +1,6 @@
 # Instruction
 
-## Node Selectors
+## Labels, Node Selectors & Affinity, Pod Affinity and Anti-Affinity
 
 ### Access the EKS cluster CLI
 
@@ -21,7 +21,7 @@ kubectl label nodes <node_name> az=eu-west-2b
 
 `kubectl get nodes --show-labels | grep -i az=`
 
-### Deploy a pod that will be assigned to that node usinf node selector
+### Deploy a pod that will be assigned to that node using node selector
 
 `kubectl create -f yaml/node_selector_pod.yml`
 
@@ -60,7 +60,7 @@ nginx   1/1     Running   0          44s   192.168.1.153 ->ip-192-168-1-55.eu-we
 
 ```
 
-### CleanUp2
+### Clean Up 2
 
 `kubectl delete -f yaml/node_affinity_pod_req.yml`
 

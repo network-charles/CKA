@@ -31,7 +31,7 @@ dynamodb_table = "table-name"
 
 9. [Lab 09: Manually Schedule a Pod to a Node](#lab-09)
 10. [Lab 10: Taint Nodes and Add Tolerations to Pods](#lab-10)
-11. [Lab 11: Label Nodes and add a NodeSelector to a Pod](#lab-11)
+11. [Lab 11: Labels, Node Selectors & Affinity, Pod Affinity and Anti-Affinity](#lab-11)
 12. [Lab 12: Set CPU Resource Limit to a Namespace and Deploy a Pod that Requests more CPU and also changes the CPU Limit](#lab-12)
 13. [Lab 13: Deploy a DaemonSet across 2 nodes, and scale it to 3](#lab-13)
 14. [Lab 14: Deploy a StaticPod into a Control Plane Node](#lab-14)
@@ -84,7 +84,6 @@ dynamodb_table = "table-name"
 #### High Availability
 
 42. [Lab 41: Multi-Cluster](#lab-41)
-
 
 ## Lab 01
 
@@ -148,13 +147,13 @@ dynamodb_table = "table-name"
 
 ## Lab 11
 
-### Label Nodes and add a NodeSelector to a Pod
+### Labels, Node Selectors & Affinity, Pod Affinity and Anti-Affinity
 
 ![Lab 11](./Images/Lab%2011.png)
 
 ## Lab 12
 
-### Set CPU Resource Limit to a Namespace and Deploy acPod that Requests more CPU and also changes the CPU Limit
+### Set CPU Resource Limit to a Namespace and Deploy a Pod that Requests more CPU and also changes the CPU Limit
 
 ![Lab 12](./Images/Lab%2012.png)
 

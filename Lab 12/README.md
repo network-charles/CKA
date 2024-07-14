@@ -20,7 +20,7 @@
 
 ### Deploy a pod that is above the resource limit
 
-`kubectl create -f yaml/pod_beyond_limit.yml.yml`
+`kubectl create -f yaml/pod_beyond_limi.yml`
 
 Notice an error `Invalid value: "700m": must be less than or equal to cpu limit of 500m`
 
