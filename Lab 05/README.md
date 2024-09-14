@@ -1,11 +1,7 @@
-# Instruction
+# Deploy a Replicaset and expose it using a Nodeport Service
 
-Use a launch template for the managed EKS node.
-Reference the security group attached to the EKS cluster in the launch template. This will make the node port accessible to the internet.
-
-## Access the EKS cluster CLI
-
-`aws eks update-kubeconfig --name eks`
+# Create cluster
+`kind create cluster --config cluster.yaml`
 
 ## Confirm that Nodes are Up
 
@@ -13,7 +9,7 @@ Reference the security group attached to the EKS cluster in the launch template.
 
 ## Create new replicasets
 
-`kubectl create -f yaml/replicaset.yml`
+`kubectl apply -f replicaset.yml`
 
 ## Confirm the all pods in the replicaset are running
 
@@ -21,7 +17,7 @@ Reference the security group attached to the EKS cluster in the launch template.
 
 ## Create new NodePort service
 
-`kubectl create -f yaml/service.yml`
+`kubectl apply -f service.yml`
 
 OR
 
@@ -41,6 +37,4 @@ OR
 
 ## Clean Up
 
-`kubectl delete -f yaml`
-
-`terraform destroy -auto-approve`
+`kind delete cluster`
