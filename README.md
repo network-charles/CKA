@@ -57,7 +57,7 @@ dynamodb_table = "table-name"
 25. [Lab 24: Configure a deployment and use a static local volume type with a persistent volume and persistent volume claim](#lab-28)
 26. [Lab 25: Configure a deployment and use a dynamic EBS volume type with a persistent volume, persistent volume claim](#lab-25)
 27. [Lab 26: Configure a deployment and use a static EBS volume type with a persistent volume, persistent volume claim](#lab-26)
-
+28. [Lab 27: Configure a deployment and use a dynamic NFS volume type with a persistent volume and persistent volume claim](#lab-27)
 29. [Lab 28: Configure a deployment and use a dynamic local volume type with a persistent volume, persistent volume claim, and a snapshot](#lab-28)
 
 #### Storage for Application Lifecycle Management
