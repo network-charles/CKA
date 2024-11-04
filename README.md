@@ -39,11 +39,11 @@ dynamodb_table = "table-name"
 
 ### Logging & Monitoring
 
-16. [Lab 16: Deploy a Metric Server and View the Metrics of Resources](#lab-16)
+16. [Lab 16: Deploy a Deployment with 3 Replicas, then install a new version of the image using the Rolling Update strategy](#lab-16)
 
 ### Application Lifecycle Management
 
-17. [Lab 17: Deploy a Deployment with 3 Replicas, then install a new version of the image using the Rolling Update strategy](#lab-17)
+17. [Lab 17: Deploy a Metric Server and View the Metrics of Resources](#lab-17)
 18. [Lab 18: Use Command & Argument to Execute an Instruction in the Shell of a Pod](#lab-18)
 19. [Lab 19: Use a ConfigMap to Dynamically Pass Configs to a Container in a Pod via its Environmental Variables](#lab-19)
 20. [Lab 20: Attach a Secrets object to a Pod](#lab-20)
