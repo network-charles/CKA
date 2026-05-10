@@ -4,8 +4,7 @@ nodes:
 - role: control-plane
   extraPortMappings:
   - containerPort: 30008 # The k8s service port
-    hostPort: 30008 # The host port you want to expose the k8s service
+    hostPort: 30008 # The host port you want to expose the K8s service as
     listenAddress: "0.0.0.0"
     protocol: tcp
 - role: worker
-

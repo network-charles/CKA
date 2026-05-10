@@ -1,0 +1,25 @@
+# Deploy a Replicaset and expose it using a Nodeport Service
+
+# Create cluster
+kind create cluster --config cluster.yaml
+
+## Confirm that Nodes are Up
+kubectl get nodes
+
+## Create new replicasets
+kubectl apply -f replicaset.yml
+
+## Confirm the all pods in the replicaset are running
+kubectl get pod
+
+## Create new NodePort service
+kubectl apply -f service.yml
+
+## Confirm the new service in the cluster
+kubectl get service
+
+## Curl to the web server using the node-port detail
+curl localhost:<port>
+
+## Clean Up
+kind delete cluster

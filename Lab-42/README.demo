@@ -1,0 +1,27 @@
+# Create two clusters and ping between them
+
+## Create clusters
+kind create cluster --name kind-kind-cluster1 \
+  --config kind-cluster1.yaml && \
+kind create cluster --name kind-cluster2 \
+  --config kind-cluster2.yaml
+
+## Deploy test pods
+kubectl --context kind-cluster1 run pod1 \
+  --image=busybox \
+  -- sleep 3600
+
+kubectl --context kind-cluster2 run pod2 \
+  --image=busybox \
+  -- sleep 3600
+
+## Get pod IPs
+kubectl --context kind-cluster1 get pod -o wide
+kubectl --context kind-cluster2 get pod -o wide
+
+## Ping
+kubectl --context kind-kind-cluster1 exec -it pod1 -- ping 10.30.0.5
+kubectl --context kind-cluster2 exec -it pod2 -- ping 10.10.0.5
+
+## Delete clusters
+kind delete clusters -A
